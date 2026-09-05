@@ -25,7 +25,7 @@ export default function Navbar () {
         },
     ]
     return (
-        <main className="flex items-center justify-between lg:px-20 py-2 shadow-md">
+        <main className="flex items-center justify-between lg:px-20 py-2 shadow-md relative">
             <Link href={"/"} className="flex items-center">
                 <Image
                     src={"/logo.jpg"}
@@ -59,13 +59,16 @@ export default function Navbar () {
                 <IoMdRestaurant />
             </button>
 
-             <div className="bg-red-600 h-dvh">
-                {
-                    navLinks.map((item, i)=> (
-                        <Link href={item.url} className="text-lg">{item.label}</Link>
-                    ))
-                }
-            </div>
+            <blockquote className="lg:hidden">
+                <div className="bg-red-600 h-dvh absolute top-0 right-0 w-full">
+                    {
+                        navLinks.map((item, i)=> (
+                            <Link href={item.url} className="text-lg">{item.label}</Link>
+                        ))
+                    }
+                </div>
+                
+            </blockquote>
         </main>
     )
 }
