@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Sansita_Swashed, Slabo_13px } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sansitaSwashed = Sansita_Swashed({
   subsets: ["latin"],
-});
+  weight: ["300", "400", "500", "600", "700", "800", "900"]
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const slabo = Slabo_13px({
   subsets: ["latin"],
-});
+  weight: ["400"]
+})
 
 export const metadata: Metadata = {
   title: "Kravings - Africa's touch",
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${slabo.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Navbar/>
@@ -31,3 +31,4 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     </html>
   );
 }
+
