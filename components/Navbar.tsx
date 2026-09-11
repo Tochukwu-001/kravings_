@@ -70,7 +70,7 @@ export default function Navbar () {
                 <div className="flex pt-20 flex-col gap-10 items-center">
                     {
                         navLinks.map((item, i)=> (
-                            <Link href={item.url} className="text-lg">{item.label}</Link>
+                            <Link key={i} href={item.url} className="text-lg">{item.label}</Link>
                         ))
                     }
                 </div>
