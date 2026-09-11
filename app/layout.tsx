@@ -3,33 +3,32 @@ import { Sansita_Swashed, Slabo_13px } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
+const sansitaSwashed = Sansita_Swashed({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"]
+})
+
 const slabo = Slabo_13px({
   subsets: ["latin"],
   weight: ["400"]
-});
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+})
 
 export const metadata: Metadata = {
-  title: "kravings-Africas touch",
-  description: "A place to discover and enjoy African cuisine",
+  title: "Kravings - Africa's touch",
+  description: "A place to discover and enjoy authentic African cuisines.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${slabo.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar />
+        <Navbar/>
         {children}
       </body>
     </html>
   );
 }
+
