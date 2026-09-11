@@ -55,7 +55,7 @@ export default function Navbar () {
             </div>
 
             <div className="flex items-center gap-6 ml-6 max-lg:hidden">
-                <Link href={"/"} className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg">Account <FaRegCircleUser /></Link>
+                <Link href={"/auth"} className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg">Account <FaRegCircleUser /></Link>
                 <Link href={"/"} style={{backgroundColor: Theme.primaryColor, borderColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
             </div>
 
