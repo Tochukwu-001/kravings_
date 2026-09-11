@@ -31,7 +31,7 @@ export default function Navbar () {
         },
     ]
     return (
-        <main className="flex items-center justify-between lg:px-20 py-2 shadow-md relative">
+        <main className="flex items-center justify-between lg:px-20 py-2 shadow-md relative z-50">
             <Link href={"/"} className="flex items-center z-50">
                 <Image
                     src={"/logo.jpg"}
