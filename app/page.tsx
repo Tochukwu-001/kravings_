@@ -161,23 +161,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-12 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-2xl font-bold text-white tracking-wider">
-            Kravings<span className="text-[#E73F1E]">.</span>
-          </div>
-          <div className="flex gap-6 text-sm">
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#" className="hover:text-white transition-colors">Contact Us</Link>
-          </div>
-          <div className="text-sm">
-            © {new Date().getFullYear()} Kravings. All rights reserved.
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
