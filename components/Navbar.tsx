@@ -30,7 +30,7 @@ export default function Navbar() {
         }
     ]
     return (
-        <main className="flex items-center justify-between lg:px-20 max-lg:px-5 py-2 shadow-md">
+        <main className="flex items-center justify-between lg:px-20 max-lg:px-5 py-2 shadow-md z-50 relative bg-white">
             <Link href="/" className="flex items-center z-50">
                 <Image
                     src="/logo.jpg"
@@ -39,13 +39,13 @@ export default function Navbar() {
                     height={800}
                     className="w-20 h-20"
                 />
-                <p className="text-xl italic text-gray-800">Kravings</p>
+                <p className="text-xl italic text-gray-800"><span style={{ color: Theme.primaryColor }}>K</span>ravings</p>
             </Link>
 
             <div className="ml-auto flex items-center gap-6 max-lg:hidden">
                 {
                     navLinks.map((item, i)=>(
-                        <article className="group">
+                        <article key = {i} className="group">
                         <Link href={item.url} className="text-lg">{item.label}</Link>
                         <div className="h-1 w-full bg-white group-hover:bg-[#E73F1E] transition-all duration-500"></div>
                         </article>
@@ -54,8 +54,8 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-6 ml-6 max-lg:hidden">
-                <Link href="/" className="flex items-center text-lg border gap-1 px-6 py-1 rounded-full border-gray-700">Account <FaRegCircleUser /></Link>
-                <Link href="/" style={{backgroundColor:Theme.primaryColor , borderColor:Theme.primaryColor}} className="px-6 py-1 rounded-full text-white text-lg">Add Recipe</Link>
+                <Link href="/auth" className="flex items-center text-lg border gap-1 px-6 py-1 rounded-full border-gray-700">Account <FaRegCircleUser /></Link>
+                <Link href="/addrecipe" style={{backgroundColor:Theme.primaryColor , borderColor:Theme.primaryColor}} className="px-6 py-1 rounded-full text-white text-lg">Add Recipe</Link>
             </div>
 
             {/* mobile and tablet view */}
@@ -69,14 +69,14 @@ export default function Navbar() {
             <div className=" pt-20 flex flex-col items-center gap-10">
                 {
                     navLinks.map((item, i)=>(
-                        <Link href={item.url} className="text-lg">{item.label}</Link>
+                        <Link key={i} href={item.url} className="text-lg">{item.label}</Link>
                     ))
                 }
             </div>
 
             <div className="flex flex-col items-center gap-6">
-                <Link href="/" className="flex items-center text-lg border gap-1 px-6 py-1 rounded-full border-gray-700">Account <FaRegCircleUser /></Link>
-                <Link href="/" style={{backgroundColor:Theme.primaryColor , borderColor:Theme.primaryColor}} className="px-6 py-1 rounded-full text-white text-lg">Add Recipe</Link>
+                <Link href="/auth" className="flex items-center text-lg border gap-1 px-6 py-1 rounded-full border-gray-700">Account <FaRegCircleUser /></Link>
+                <Link href="/addrecipe" style={{backgroundColor:Theme.primaryColor , borderColor:Theme.primaryColor}} className="px-6 py-1 rounded-full text-white text-lg">Add Recipe</Link>
             </div>
             </blockquote>
 
