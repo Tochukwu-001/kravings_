@@ -1,20 +1,15 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import { 
   FaArrowLeftLong, 
   FaEnvelope, 
   FaLock, 
-  FaUser, 
-  FaEye, 
-  FaEyeSlash 
+  FaUser 
 } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
 export default function Auth() {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  // Toggle this to true to see the Sign Up UI
+  const isSignUp = false; 
 
   return (
     <main className="min-h-dvh bg-gray-50 flex items-center justify-center p-4 md:p-8 font-sans">
@@ -63,13 +58,12 @@ export default function Auth() {
               <span className="text-gray-500">
                 {isSignUp ? "Already a member?" : "Don't have an account?"}
               </span>{" "}
-              <button
-                type="button"
-                onClick={() => setIsSignUp(!isSignUp)}
+              <Link
+                href={isSignUp ? "/signin" : "/signup"}
                 className="font-bold text-[#E73F1E] hover:underline cursor-pointer ml-1"
               >
                 {isSignUp ? "Sign In" : "Sign Up"}
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -105,7 +99,7 @@ export default function Auth() {
           </div>
 
           {/* Form UI */}
-          <form className="space-y-4">
+          <div className="space-y-4">
             {/* Full Name Field (Sign Up Only) */}
             {isSignUp && (
               <div className="space-y-1">
@@ -113,6 +107,7 @@ export default function Auth() {
                 <div className="relative">
                   <input
                     type="text"
+                    name="fullName"
                     placeholder="Chef Amina"
                     className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
                   />
@@ -127,6 +122,7 @@ export default function Auth() {
               <div className="relative">
                 <input
                   type="email"
+                  name="email"
                   placeholder="amina@example.com"
                   className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
                 />
@@ -139,25 +135,19 @@ export default function Auth() {
               <div className="flex justify-between items-center">
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Password</label>
                 {!isSignUp && (
-                  <Link href="#" className="text-xs font-semibold text-[#E73F1E] hover:underline">
+                  <Link href="/forgot-password" className="text-xs font-semibold text-[#E73F1E] hover:underline">
                     Forgot password?
                   </Link>
                 )}
               </div>
               <div className="relative">
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type="password"
+                  name="password"
                   placeholder="••••••••"
-                  className="w-full pl-11 pr-11 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
                 />
                 <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
               </div>
             </div>
 
@@ -167,15 +157,16 @@ export default function Auth() {
                 <input
                   type="checkbox"
                   id="terms"
+                  name="terms"
                   className="w-4 h-4 text-[#E73F1E] border-gray-300 rounded focus:ring-[#E73F1E] cursor-pointer"
                 />
                 <label htmlFor="terms" className="text-xs text-gray-500">
                   I agree to the{" "}
-                  <Link href="#" className="text-gray-900 font-semibold underline">
+                  <Link href="/terms" className="text-gray-900 font-semibold underline">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link href="#" className="text-gray-900 font-semibold underline">
+                  <Link href="/privacy" className="text-gray-900 font-semibold underline">
                     Privacy Policy
                   </Link>
                 </label>
@@ -189,7 +180,7 @@ export default function Auth() {
             >
               {isSignUp ? "Create Account" : "Sign In"}
             </button>
-          </form>
+          </div>
 
         </div>
       </div>
