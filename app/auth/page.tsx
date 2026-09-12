@@ -1,20 +1,18 @@
+import { auth, signIn } from "@/auth";
 import Link from "next/link";
-import { 
-  FaArrowLeftLong, 
-  FaEnvelope, 
-  FaLock, 
-  FaUser 
-} from "react-icons/fa6";
+import { FaArrowLeftLong, FaEnvelope, FaLock, FaUser } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
-export default function Auth() {
+export default async function Auth() {
+  const session = await auth()
+  console.log(session);
+  
   // Toggle this to true to see the Sign Up UI
-  const isSignUp = false; 
+  const isSignUp = false;
 
   return (
     <main className="min-h-dvh bg-gray-50 flex items-center justify-center p-4 md:p-8 font-sans">
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row min-h-[650px]">
-        
         {/* Visual / Brand Side */}
         <div className="md:w-1/2 bg-[url('/bg.jpg')] bg-no-repeat bg-center bg-cover relative hidden md:flex flex-col justify-between p-12 text-white">
           <div className="absolute inset-0 bg-black/60 z-0"></div>
@@ -36,22 +34,26 @@ export default function Auth() {
               <span className="text-[#FFDD9C]">African Culinary Art</span>
             </h2>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Unlock hundreds of authentic recipes, connect with passionate home cooks, and bring home the true flavors of Africa.
+              Unlock hundreds of authentic recipes, connect with passionate home
+              cooks, and bring home the true flavors of Africa.
             </p>
           </div>
 
           {/* Footer Quote */}
           <div className="relative z-10 pt-6 border-t border-white/20 text-xs text-gray-300">
-            "Food brings people together on a level that's very separate from words."
+            "Food brings people together on a level that's very separate from
+            words."
           </div>
         </div>
 
         {/* Auth Form Side */}
         <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative bg-white">
-          
           {/* Top Bar Navigation */}
           <div className="flex justify-between items-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#E73F1E] transition-colors">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#E73F1E] transition-colors"
+            >
               <FaArrowLeftLong /> Home
             </Link>
             <div className="text-sm">
@@ -81,13 +83,20 @@ export default function Auth() {
 
           {/* Social Auth Button */}
           <div className="space-y-4">
+            <form
+              action={async () => {
+                "use server";
+                await signIn("google");
+              }}
+            >    
             <button
-              type="button"
+              type="submit"
               className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-3.5 px-4 rounded-xl transition-all shadow-sm cursor-pointer"
             >
               <FcGoogle className="text-2xl" />
-              <span>{isSignUp ? "Sign up with Google" : "Sign in with Google"}</span>
+              <span>Sign in with Google</span>
             </button>
+            </form>
 
             {/* Divider */}
             <div className="relative flex items-center justify-center my-6">
@@ -103,7 +112,9 @@ export default function Auth() {
             {/* Full Name Field (Sign Up Only) */}
             {isSignUp && (
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Full Name</label>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Full Name
+                </label>
                 <div className="relative">
                   <input
                     type="text"
@@ -118,7 +129,9 @@ export default function Auth() {
 
             {/* Email Field */}
             <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Email Address</label>
+              <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                Email Address
+              </label>
               <div className="relative">
                 <input
                   type="email"
@@ -133,9 +146,14 @@ export default function Auth() {
             {/* Password Field */}
             <div className="space-y-1">
               <div className="flex justify-between items-center">
-                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Password</label>
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Password
+                </label>
                 {!isSignUp && (
-                  <Link href="/forgot-password" className="text-xs font-semibold text-[#E73F1E] hover:underline">
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs font-semibold text-[#E73F1E] hover:underline"
+                  >
                     Forgot password?
                   </Link>
                 )}
@@ -162,11 +180,17 @@ export default function Auth() {
                 />
                 <label htmlFor="terms" className="text-xs text-gray-500">
                   I agree to the{" "}
-                  <Link href="/terms" className="text-gray-900 font-semibold underline">
+                  <Link
+                    href="/terms"
+                    className="text-gray-900 font-semibold underline"
+                  >
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link href="/privacy" className="text-gray-900 font-semibold underline">
+                  <Link
+                    href="/privacy"
+                    className="text-gray-900 font-semibold underline"
+                  >
                     Privacy Policy
                   </Link>
                 </label>
@@ -181,7 +205,6 @@ export default function Auth() {
               {isSignUp ? "Create Account" : "Sign In"}
             </button>
           </div>
-
         </div>
       </div>
     </main>
