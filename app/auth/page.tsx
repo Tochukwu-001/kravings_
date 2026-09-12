@@ -1,24 +1,22 @@
-"use client";
-
-import { useState } from "react";
+import { auth, signIn } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { 
   FaEnvelope, 
   FaLock, 
   FaUser, 
-  FaEye, 
-  FaEyeSlash, 
   FaArrowRightLong, 
   FaUtensils, 
   FaStar 
 } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
-export default function AccountAuth() {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+export default async function AccountAuth({ searchParams }: { searchParams?: { mode?: string } }) {
+  // Determine state via URL search parameters instead of React state for server-side rendering
+  const isSignUp = searchParams?.mode === "register";
 
+  const session = await auth();
+  console.log(session);
   return (
     <main className="min-h-dvh bg-stone-50 text-stone-900 font-sans flex flex-col justify-between">
       {/* HEADER / NAVIGATION BAR */}
@@ -94,11 +92,10 @@ export default function AccountAuth() {
                 </p>
               </div>
 
-              {/* Mode Toggle Pills */}
+              {/* Mode Toggle Pills replaced with Next.js Links routing to URL queries */}
               <div className="bg-stone-100 p-1 rounded-full flex gap-1 flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setIsSignUp(false)}
+                <Link
+                  href="?mode=login"
                   className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                     !isSignUp 
                       ? "bg-white text-stone-900 shadow-sm" 
@@ -106,10 +103,9 @@ export default function AccountAuth() {
                   }`}
                 >
                   Sign In
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsSignUp(true)}
+                </Link>
+                <Link
+                  href="?mode=register"
                   className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                     isSignUp 
                       ? "bg-[#E73F1E] text-white shadow-sm" 
@@ -117,24 +113,25 @@ export default function AccountAuth() {
                   }`}
                 >
                   Register
-                </button>
+                </Link>
               </div>
             </div>
 
             {/* 1. GOOGLE AUTH BUTTON ROUTE */}
             <div className="space-y-4">
-              <button
-                type="button"
-                onClick={() => {
-                  // Connect to NextAuth / Firebase Google OAuth provider route:
-                  // signIn("google", { callbackUrl: "/dashboard" })
-                  alert("Initiating Google Authentication Route...");
+                <form
+                    action={async () => {
+                        "use server"
+                    await signIn("google")
                 }}
+                >
+              <button
                 className="w-full py-3.5 px-6 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 transition-all font-semibold text-stone-700 text-sm flex items-center justify-center gap-3 shadow-sm hover:shadow"
               >
                 <FcGoogle className="text-xl" />
-                <span>{isSignUp ? "Sign up with Google" : "Continue with Google"}</span>
+                <span>Continue with Google</span>
               </button>
+    </form>
 
               {/* DIVIDER */}
               <div className="relative flex items-center justify-center my-6">
@@ -145,8 +142,8 @@ export default function AccountAuth() {
               </div>
             </div>
 
-            {/* 2. EMAIL / PASSWORD FORM */}
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+            {/* 2. EMAIL / PASSWORD FORM (Using Native HTML Action Method) */}
+            <form action="/api/auth/submit" method="POST" className="space-y-5">
               
               {/* Name Field (Sign Up Only) */}
               {isSignUp && (
@@ -155,6 +152,7 @@ export default function AccountAuth() {
                   <div className="relative flex items-center">
                     <input
                       type="text"
+                      name="fullName"
                       placeholder="e.g. Amara Okafor"
                       className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-colors"
                       required
@@ -170,6 +168,7 @@ export default function AccountAuth() {
                 <div className="relative flex items-center">
                   <input
                     type="email"
+                    name="email"
                     placeholder="amara@example.com"
                     className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-colors"
                     required
@@ -190,19 +189,13 @@ export default function AccountAuth() {
                 </div>
                 <div className="relative flex items-center">
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type="password"
+                    name="password"
                     placeholder="••••••••••••"
-                    className="w-full pl-11 pr-11 py-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-colors"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-colors"
                     required
                   />
                   <FaLock className="absolute left-4 text-stone-400 text-sm" />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 text-stone-400 hover:text-stone-600 text-sm focus:outline-none"
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </button>
                 </div>
               </div>
 
@@ -211,6 +204,7 @@ export default function AccountAuth() {
                 <div className="flex items-start gap-2 pt-1">
                   <input 
                     type="checkbox" 
+                    name="terms"
                     id="terms" 
                     className="mt-1 rounded border-stone-300 text-[#E73F1E] focus:ring-[#E73F1E]" 
                     required 
@@ -236,24 +230,22 @@ export default function AccountAuth() {
               {isSignUp ? (
                 <p>
                   Already have an account?{" "}
-                  <button 
-                    type="button" 
-                    onClick={() => setIsSignUp(false)} 
+                  <Link 
+                    href="?mode=login" 
                     className="font-bold text-[#E73F1E] hover:underline"
                   >
                     Sign In
-                  </button>
+                  </Link>
                 </p>
               ) : (
                 <p>
                   Don&apos;t have an account yet?{" "}
-                  <button 
-                    type="button" 
-                    onClick={() => setIsSignUp(true)} 
+                  <Link 
+                    href="?mode=register" 
                     className="font-bold text-[#E73F1E] hover:underline"
                   >
                     Register for Free
-                  </button>
+                  </Link>
                 </p>
               )}
             </div>
