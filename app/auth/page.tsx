@@ -1,272 +1,212 @@
-"use client";
-
-import { useState } from "react";
-import Image from "next/image";
+ import { auth, signIn } from "@/auth";
 import Link from "next/link";
-import { 
-  FaEnvelope, 
-  FaLock, 
-  FaUser, 
-  FaEye, 
-  FaEyeSlash, 
-  FaArrowRightLong, 
-  FaUtensils, 
-  FaStar 
-} from "react-icons/fa6";
+import { FaArrowLeftLong, FaEnvelope, FaLock, FaUser } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
-export default function AccountAuth() {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+export default async function Auth() {
+  const session = await auth()
+  console.log(session);
+  
+  // Toggle this to true to see the Sign Up UI
+  const isSignUp = false;
 
   return (
-    <main className="min-h-dvh bg-stone-50 text-stone-900 font-sans flex flex-col justify-between">
-      {/* HEADER / NAVIGATION BAR */}
-      <header className="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-black tracking-wider text-stone-900">
-          KRAVINGS<span className="text-[#E73F1E]">.</span>
-        </Link>
-        <Link 
-          href="/" 
-          className="text-xs font-bold uppercase tracking-wider text-stone-600 hover:text-[#E73F1E] transition-colors"
-        >
-          &larr; Back to Home
-        </Link>
-      </header>
+    <main className="min-h-dvh bg-gray-50 flex items-center justify-center p-4 md:p-8 font-sans">
+      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row min-h-[650px]">
+        {/* Visual / Brand Side */}
+        <div className="md:w-1/2 bg-[url('/bg.jpg')] bg-no-repeat bg-center bg-cover relative hidden md:flex flex-col justify-between p-12 text-white">
+          <div className="absolute inset-0 bg-black/60 z-0"></div>
 
-      {/* MAIN AUTH SECTION */}
-      <section className="py-8 px-6 max-w-7xl mx-auto w-full my-auto">
-        <div className="grid lg:grid-cols-12 gap-8 items-center bg-white rounded-3xl border border-stone-200/80 shadow-xl overflow-hidden">
-          
-          {/* LEFT COLUMN: BRAND PROMO PANEL (Hidden on mobile) */}
-          <div className="hidden lg:flex lg:col-span-5 relative bg-stone-900 text-white min-h-[640px] p-12 flex-col justify-between overflow-hidden">
-            {/* Background Overlay Image & Blurs */}
-            <Image 
-              src="/bg.jpg" 
-              alt="African culinary backdrop" 
-              fill 
-              className="object-cover opacity-30"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/60 to-transparent z-10" />
-            <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-[#E73F1E]/30 blur-3xl z-10 pointer-events-none" />
+          {/* Top Logo */}
+          <div className="relative z-10">
+            <Link href="/" className="text-3xl font-bold tracking-wider">
+              Kravings<span className="text-[#E73F1E]">.</span>
+            </Link>
+          </div>
 
-            {/* Top Brand Pill */}
-            <div className="relative z-20">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-black bg-[#FFDD9C]">
-                <FaUtensils /> Global Food Community
-              </span>
-            </div>
+          {/* Mid Content */}
+          <div className="relative z-10 space-y-4">
+            <span className="bg-[#FFDD9C] text-gray-900 font-bold text-xs uppercase tracking-widest px-3 py-1 rounded-full">
+              Join Our Culinary Community
+            </span>
+            <h2 className="text-4xl font-bold leading-tight">
+              Celebrate and Share <br />
+              <span className="text-[#FFDD9C]">African Culinary Art</span>
+            </h2>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Unlock hundreds of authentic recipes, connect with passionate home
+              cooks, and bring home the true flavors of Africa.
+            </p>
+          </div>
 
-            {/* Middle Quote / Headline */}
-            <div className="relative z-20 space-y-4">
-              <div className="flex items-center gap-1 text-amber-400 text-sm">
-                <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
-              </div>
-              <blockquote className="text-2xl font-bold leading-snug">
-                &ldquo;Kravings re-connected me to the traditional home-cooked recipes of my childhood. Sharing my mother&apos;s Egusi recipe with foodies globally has been magical!&rdquo;
-              </blockquote>
-              <div className="pt-2">
-                <p className="font-bold text-sm text-white">Chef Ngozi E.</p>
-                <p className="text-xs text-stone-400">Verified Creator & Food Enthusiast</p>
-              </div>
-            </div>
+          {/* Footer Quote */}
+          <div className="relative z-10 pt-6 border-t border-white/20 text-xs text-gray-300">
+            "Food brings people together on a level that's very separate from
+            words."
+          </div>
+        </div>
 
-            {/* Bottom Footer note */}
-            <div className="relative z-20 pt-6 border-t border-stone-800 flex justify-between items-center text-xs text-stone-400">
-              <span>Join over 85,000+ food lovers</span>
-              <span className="text-[#FFDD9C] font-semibold">100% Free Access</span>
+        {/* Auth Form Side */}
+        <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative bg-white">
+          {/* Top Bar Navigation */}
+          <div className="flex justify-between items-center mb-8">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#E73F1E] transition-colors"
+            >
+              <FaArrowLeftLong /> Home
+            </Link>
+            <div className="text-sm">
+              <span className="text-gray-500">
+                {isSignUp ? "Already a member?" : "Don't have an account?"}
+              </span>{" "}
+              <Link
+                href={isSignUp ? "/signin" : "/signup"}
+                className="font-bold text-[#E73F1E] hover:underline cursor-pointer ml-1"
+              >
+                {isSignUp ? "Sign In" : "Sign Up"}
+              </Link>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: AUTHENTICATION FORM */}
-          <div className="lg:col-span-7 p-6 sm:p-10 md:p-12">
-            
-            {/* TAB SWITCHER */}
-            <div className="flex justify-between items-center mb-8 border-b border-stone-100 pb-4">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900">
-                  {isSignUp ? "Create Your Account" : "Welcome Back"}
-                </h1>
-                <p className="text-xs sm:text-sm text-stone-500 mt-1">
-                  {isSignUp 
-                    ? "Join Kravings to publish recipes, save favorites, and connect." 
-                    : "Sign in to access your saved dishes and recipe book."}
-                </p>
-              </div>
+          {/* Form Header */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-gray-900">
+              {isSignUp ? "Create your account" : "Welcome back"}
+            </h1>
+            <p className="text-gray-500 text-sm mt-1">
+              {isSignUp
+                ? "Join Kravings to start bookmarking and sharing recipes."
+                : "Enter your details to access your saved recipes and account."}
+            </p>
+          </div>
 
-              {/* Mode Toggle Pills */}
-              <div className="bg-stone-100 p-1 rounded-full flex gap-1 flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setIsSignUp(false)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
-                    !isSignUp 
-                      ? "bg-white text-stone-900 shadow-sm" 
-                      : "text-stone-500 hover:text-stone-900"
-                  }`}
-                >
-                  Sign In
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsSignUp(true)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
-                    isSignUp 
-                      ? "bg-[#E73F1E] text-white shadow-sm" 
-                      : "text-stone-500 hover:text-stone-900"
-                  }`}
-                >
-                  Register
-                </button>
-              </div>
-            </div>
-
-            {/* 1. GOOGLE AUTH BUTTON ROUTE */}
-            <div className="space-y-4">
-              <button
-                type="button"
-                onClick={() => {
-                  // Connect to NextAuth / Firebase Google OAuth provider route:
-                  // signIn("google", { callbackUrl: "/dashboard" })
-                  alert("Initiating Google Authentication Route...");
-                }}
-                className="w-full py-3.5 px-6 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 transition-all font-semibold text-stone-700 text-sm flex items-center justify-center gap-3 shadow-sm hover:shadow"
-              >
-                <FcGoogle className="text-xl" />
-                <span>{isSignUp ? "Sign up with Google" : "Continue with Google"}</span>
-              </button>
-
-              {/* DIVIDER */}
-              <div className="relative flex items-center justify-center my-6">
-                <div className="border-t border-stone-200 w-full" />
-                <span className="bg-white px-4 text-xs uppercase font-bold text-stone-400 tracking-wider absolute">
-                  or email
-                </span>
-              </div>
-            </div>
-
-            {/* 2. EMAIL / PASSWORD FORM */}
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
-              
-              {/* Name Field (Sign Up Only) */}
-              {isSignUp && (
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-stone-600">Full Name</label>
-                  <div className="relative flex items-center">
-                    <input
-                      type="text"
-                      placeholder="e.g. Amara Okafor"
-                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-colors"
-                      required
-                    />
-                    <FaUser className="absolute left-4 text-stone-400 text-sm" />
-                  </div>
-                </div>
-              )}
-
-              {/* Email Address */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-stone-600">Email Address</label>
-                <div className="relative flex items-center">
-                  <input
-                    type="email"
-                    placeholder="amara@example.com"
-                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-colors"
-                    required
-                  />
-                  <FaEnvelope className="absolute left-4 text-stone-400 text-sm" />
-                </div>
-              </div>
-
-              {/* Password */}
-              <div className="space-y-1.5">
-                <div className="flex justify-between items-center">
-                  <label className="text-xs font-bold uppercase tracking-wider text-stone-600">Password</label>
-                  {!isSignUp && (
-                    <Link href="/forgot-password" className="text-xs font-semibold text-[#E73F1E] hover:underline">
-                      Forgot Password?
-                    </Link>
-                  )}
-                </div>
-                <div className="relative flex items-center">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••••••"
-                    className="w-full pl-11 pr-11 py-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-colors"
-                    required
-                  />
-                  <FaLock className="absolute left-4 text-stone-400 text-sm" />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 text-stone-400 hover:text-stone-600 text-sm focus:outline-none"
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </button>
-                </div>
-              </div>
-
-              {/* Terms Checkbox (Sign Up Only) */}
-              {isSignUp && (
-                <div className="flex items-start gap-2 pt-1">
-                  <input 
-                    type="checkbox" 
-                    id="terms" 
-                    className="mt-1 rounded border-stone-300 text-[#E73F1E] focus:ring-[#E73F1E]" 
-                    required 
-                  />
-                  <label htmlFor="terms" className="text-xs text-stone-500 leading-snug">
-                    I agree to the <Link href="/terms" className="underline text-stone-800">Terms of Service</Link> and <Link href="/privacy" className="underline text-stone-800">Privacy Policy</Link>.
-                  </label>
-                </div>
-              )}
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full py-4 rounded-full bg-[#E73F1E] text-white font-semibold flex items-center justify-center gap-3 hover:bg-[#d03517] transition-all shadow-md hover:shadow-lg text-sm mt-4"
-              >
-                <span>{isSignUp ? "Create Free Account" : "Sign In to Kravings"}</span>
-                <FaArrowRightLong />
-              </button>
+          {/* Social Auth Button */}
+          <div className="space-y-4">
+            <form
+              action={async () => {
+                "use server";
+                await signIn("google");
+              }}
+            >    
+            <button
+              type="submit"
+              className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-3.5 px-4 rounded-xl transition-all shadow-sm cursor-pointer"
+            >
+              <FcGoogle className="text-2xl" />
+              <span>Sign in with Google</span>
+            </button>
             </form>
 
-            {/* BOTTOM SWITCH FOOTER */}
-            <div className="text-center mt-8 text-xs text-stone-500">
-              {isSignUp ? (
-                <p>
-                  Already have an account?{" "}
-                  <button 
-                    type="button" 
-                    onClick={() => setIsSignUp(false)} 
-                    className="font-bold text-[#E73F1E] hover:underline"
-                  >
-                    Sign In
-                  </button>
-                </p>
-              ) : (
-                <p>
-                  Don&apos;t have an account yet?{" "}
-                  <button 
-                    type="button" 
-                    onClick={() => setIsSignUp(true)} 
-                    className="font-bold text-[#E73F1E] hover:underline"
-                  >
-                    Register for Free
-                  </button>
-                </p>
-              )}
+            {/* Divider */}
+            <div className="relative flex items-center justify-center my-6">
+              <div className="border-t border-gray-200 w-full"></div>
+              <span className="bg-white px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider absolute">
+                Or continue with email
+              </span>
             </div>
-
           </div>
 
-        </div>
-      </section>
+          {/* Form UI */}
+          <div className="space-y-4">
+            {/* Full Name Field (Sign Up Only) */}
+            {isSignUp && (
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="fullName"
+                    placeholder="Chef Amina"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                  />
+                  <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                </div>
+              </div>
+            )}
 
-      {/* FOOTER BAR */}
-      <footer className="py-6 px-6 text-center text-xs text-stone-500 border-t border-stone-200/60 bg-white/50">
-        <p>&copy; {new Date().getFullYear()} Kravings. All rights reserved.</p>
-      </footer>
+            {/* Email Field */}
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                Email Address
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="amina@example.com"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                />
+                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Password
+                </label>
+                {!isSignUp && (
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs font-semibold text-[#E73F1E] hover:underline"
+                  >
+                    Forgot password?
+                  </Link>
+                )}
+              </div>
+              <div className="relative">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                />
+                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+              </div>
+            </div>
+
+            {/* Terms Checkbox (Sign Up Only) */}
+            {isSignUp && (
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  className="w-4 h-4 text-[#E73F1E] border-gray-300 rounded focus:ring-[#E73F1E] cursor-pointer"
+                />
+                <label htmlFor="terms" className="text-xs text-gray-500">
+                  I agree to the{" "}
+                  <Link
+                    href="/terms"
+                    className="text-gray-900 font-semibold underline"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="/privacy"
+                    className="text-gray-900 font-semibold underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                </label>
+              </div>
+            )}
+
+            {/* Action Button */}
+            <button
+              type="button"
+              className="w-full bg-[#E73F1E] hover:bg-[#c93518] text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-[#E73F1E]/20 mt-2 cursor-pointer"
+            >
+              {isSignUp ? "Create Account" : "Sign In"}
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
