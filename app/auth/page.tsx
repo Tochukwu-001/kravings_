@@ -1,25 +1,27 @@
-"use client";
-
-import { useState } from "react";
+import { auth, signIn } from "@/auth";
 import Link from "next/link";
-import { 
-  FaArrowLeftLong, 
-  FaEnvelope, 
-  FaLock, 
-  FaUser, 
-  FaEye, 
-  FaEyeSlash 
+import {
+  FaArrowLeftLong,
+  FaEnvelope,
+  FaLock,
+  FaUser
 } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
-export default function Auth() {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+export default async function Auth({
+  searchParams,
+}: {
+  searchParams?: { mode?: string };
+}) {
+  // Determine view state purely from the URL on the server
+  const isSignUp = searchParams?.mode === "signup";
+  const session = await auth()
+  console.log(session);
 
   return (
     <main className="min-h-dvh bg-gray-50 flex items-center justify-center p-4 md:p-8 font-sans">
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row min-h-[650px]">
-        
+
         {/* Visual / Brand Side */}
         <div className="md:w-1/2 bg-[url('/bg.jpg')] bg-no-repeat bg-center bg-cover relative hidden md:flex flex-col justify-between p-12 text-white">
           <div className="absolute inset-0 bg-black/60 z-0"></div>
@@ -53,7 +55,7 @@ export default function Auth() {
 
         {/* Auth Form Side */}
         <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative bg-white">
-          
+
           {/* Top Bar Navigation */}
           <div className="flex justify-between items-center mb-8">
             <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#E73F1E] transition-colors">
@@ -63,13 +65,13 @@ export default function Auth() {
               <span className="text-gray-500">
                 {isSignUp ? "Already a member?" : "Don't have an account?"}
               </span>{" "}
-              <button
-                type="button"
-                onClick={() => setIsSignUp(!isSignUp)}
+              {/* Converted to a server-side route navigation link */}
+              <Link
+                href={isSignUp ? "?mode=signin" : "?mode=signup"}
                 className="font-bold text-[#E73F1E] hover:underline cursor-pointer ml-1"
               >
                 {isSignUp ? "Sign In" : "Sign Up"}
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -85,15 +87,22 @@ export default function Auth() {
             </p>
           </div>
 
-          {/* Social Auth Button */}
+          {/* Social Auth Button - Changed to use an anchor/form standard for server auth if needed later */}
           <div className="space-y-4">
+            <form
+              action={async () => {
+                "use server"
+                await signIn("google")
+              }}
+            >
             <button
-              type="button"
+              type="submit"
               className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-3.5 px-4 rounded-xl transition-all shadow-sm cursor-pointer"
             >
               <FcGoogle className="text-2xl" />
               <span>{isSignUp ? "Sign up with Google" : "Sign in with Google"}</span>
             </button>
+            </form>
 
             {/* Divider */}
             <div className="relative flex items-center justify-center my-6">
@@ -113,8 +122,10 @@ export default function Auth() {
                 <div className="relative">
                   <input
                     type="text"
+                    name="fullName"
                     placeholder="Chef Amina"
                     className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                    required={isSignUp}
                   />
                   <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                 </div>
@@ -127,8 +138,10 @@ export default function Auth() {
               <div className="relative">
                 <input
                   type="email"
+                  name="email"
                   placeholder="amina@example.com"
                   className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                  required
                 />
                 <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
               </div>
@@ -139,25 +152,20 @@ export default function Auth() {
               <div className="flex justify-between items-center">
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Password</label>
                 {!isSignUp && (
-                  <Link href="#" className="text-xs font-semibold text-[#E73F1E] hover:underline">
+                  <Link href="/forgot-password" className="text-xs font-semibold text-[#E73F1E] hover:underline">
                     Forgot password?
                   </Link>
                 )}
               </div>
               <div className="relative">
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type="password"
+                  name="password"
                   placeholder="••••••••"
-                  className="w-full pl-11 pr-11 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                  required
                 />
                 <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
               </div>
             </div>
 
@@ -167,24 +175,26 @@ export default function Auth() {
                 <input
                   type="checkbox"
                   id="terms"
+                  name="terms"
                   className="w-4 h-4 text-[#E73F1E] border-gray-300 rounded focus:ring-[#E73F1E] cursor-pointer"
+                  required
                 />
                 <label htmlFor="terms" className="text-xs text-gray-500">
                   I agree to the{" "}
-                  <Link href="#" className="text-gray-900 font-semibold underline">
+                  <Link href="/terms" className="text-gray-900 font-semibold underline">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link href="#" className="text-gray-900 font-semibold underline">
+                  <Link href="/privacy" className="text-gray-900 font-semibold underline">
                     Privacy Policy
                   </Link>
                 </label>
               </div>
             )}
 
-            {/* Action Button */}
+            {/* Action Button - Changed to submit type for server actions */}
             <button
-              type="button"
+              type="submit"
               className="w-full bg-[#E73F1E] hover:bg-[#c93518] text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-[#E73F1E]/20 mt-2 cursor-pointer"
             >
               {isSignUp ? "Create Account" : "Sign In"}
