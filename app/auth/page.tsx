@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import { auth, signIn } from "@/auth";
 import Link from "next/link";
 import { 
   FaUtensils, 
@@ -8,11 +6,24 @@ import {
   FaEnvelope, 
   FaLock, 
   FaUser, 
-  FaArrowRight,  
+  FaArrowRight 
 } from "react-icons/fa6";
 
-export default function AuthPage() {
-  const [isSignUp, setIsSignUp] = useState(false);
+type SearchParams = Promise<{ mode?: string }>;
+
+export default async function AuthPage({
+
+
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const resolvedParams = await searchParams;
+  const isSignUp = resolvedParams?.mode === "signup";
+
+    const session = await auth()
+    console.log(session);
+    
 
   return (
     <main className="min-h-dvh bg-slate-950 text-slate-800 font-sans flex flex-col justify-between relative overflow-hidden">
@@ -22,16 +33,7 @@ export default function AuthPage() {
       <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#E73F1E]/10 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-[#FFDD9C]/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      {/* TOP HEADER / LOGO */}
-      <header className="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
-        <Link href="/" className="text-2xl md:text-3xl font-black text-white tracking-wider flex items-center gap-2">
-          <FaUtensils className="text-[#E73F1E]" />
-          <span>KRAVINGS</span>
-        </Link>
-        <Link href="/" className="text-xs font-bold text-slate-400 hover:text-white transition-colors">
-          Back to Home
-        </Link>
-      </header>
+
 
       {/* AUTH CARD CONTAINER */}
       <section className="w-full max-w-md mx-auto px-6 py-8 relative z-10 my-auto">
@@ -52,15 +54,22 @@ export default function AuthPage() {
             </p>
           </div>
 
-          {/* GOOGLE AUTHENTICATION BUTTON */}
-          <button 
-            type="button" 
-            onClick={() => alert("Google Auth simulation clicked")}
-            className="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 font-bold text-xs py-3.5 rounded-2xl transition-all flex items-center justify-center gap-3 shadow-sm mb-6 group"
-          >
-            <FaGoogle className="text-red-500 text-sm group-hover:scale-110 transition-transform" />
-            <span>Continue with Google</span>
-          </button>
+          {/* GOOGLE AUTH FORM */}
+              <form
+                action={async () => {
+                "use server"
+                await signIn("google")
+              }}
+              >
+              <button 
+                type="submit" 
+                className="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 font-bold text-xs py-3.5 rounded-2xl transition-all flex items-center justify-center gap-3 shadow-sm mb-6 group cursor-pointer"
+              >
+                <FaGoogle className="text-red-500 text-sm group-hover:scale-110 transition-transform" />
+                <span>Continue with Google</span>
+              </button>
+            </form>
+
 
           {/* DIVIDER */}
           <div className="relative flex items-center justify-center mb-6">
@@ -73,7 +82,7 @@ export default function AuthPage() {
           </div>
 
           {/* EMAIL FORM */}
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+          <form action={isSignUp ? "/api/auth/signup" : "/api/auth/signin"} method="POST" className="space-y-4">
             
             {isSignUp && (
               <div>
@@ -83,6 +92,7 @@ export default function AuthPage() {
                 <div className="relative">
                   <input 
                     id="fullname"
+                    name="fullname"
                     type="text" 
                     placeholder="Amara Okonkwo" 
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-all"
@@ -100,6 +110,7 @@ export default function AuthPage() {
               <div className="relative">
                 <input 
                   id="auth-email"
+                  name="email"
                   type="email" 
                   placeholder="amara@example.com" 
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-all"
@@ -115,14 +126,15 @@ export default function AuthPage() {
                   Password
                 </label>
                 {!isSignUp && (
-                  <a href="#" className="text-[11px] font-bold text-[#E73F1E] hover:underline">
+                  <Link href="/auth/forgot-password" className="text-[11px] font-bold text-[#E73F1E] hover:underline">
                     Forgot?
-                  </a>
+                  </Link>
                 )}
               </div>
               <div className="relative">
                 <input 
                   id="auth-password"
+                  name="password"
                   type="password" 
                   placeholder="••••••••" 
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-[#E73F1E] focus:bg-white transition-all"
@@ -134,7 +146,7 @@ export default function AuthPage() {
 
             <button 
               type="submit" 
-              className="w-full bg-[#E73F1E] text-white font-bold text-xs py-4 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-lg shadow-[#E73F1E]/20 mt-2"
+              className="w-full bg-[#E73F1E] text-white font-bold text-xs py-4 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-lg shadow-[#E73F1E]/20 mt-2 cursor-pointer"
             >
               <span>{isSignUp ? "Create Account" : "Sign In"}</span>
               <FaArrowRight className="text-[10px]" />
@@ -142,17 +154,16 @@ export default function AuthPage() {
 
           </form>
 
-          {/* SWITCH BETWEEN SIGN IN AND SIGN UP */}
+          {/* SWITCH BETWEEN SIGN IN AND SIGN UP (URL LINK) */}
           <div className="text-center pt-6 mt-6 border-t border-slate-100">
             <p className="text-xs text-slate-500">
               {isSignUp ? "Already have an account?" : "Don't have an account yet?"}{" "}
-              <button 
-                type="button"
-                onClick={() => setIsSignUp(!isSignUp)}
+              <Link 
+                href={isSignUp ? "/auth" : "/auth?mode=signup"}
                 className="font-bold text-[#E73F1E] hover:underline ml-1"
               >
                 {isSignUp ? "Sign In" : "Sign Up"}
-              </button>
+              </Link>
             </p>
           </div>
 
