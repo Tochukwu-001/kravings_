@@ -6,11 +6,31 @@ import { Theme } from "./Theme";
 import { IoIosMenu } from "react-icons/io";
 import { IoMdRestaurant } from "react-icons/io";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 export default function Navbar () {
 
     const [navOpen, setNavOpen] = useState(false)
     // console.log(navOpen);
+
+    const {data: session} = useSession()
+    
     
     const navLinks: object[] = [
         {
@@ -55,10 +75,36 @@ export default function Navbar () {
             </div>
 
             <div className="flex items-center gap-6 ml-6 max-lg:hidden">
-                <Link href={"/auth"} className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg">Account <FaRegCircleUser /></Link>
                 <Link href={"/"} style={{backgroundColor: Theme.primaryColor, borderColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
-            </div>
+                {
+                    session ? (
+                        <DropdownMenu>
+                        <DropdownMenuTrigger render={<button  />}>
+                            <Avatar>
+                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuItem>Profile</DropdownMenuItem>
+                            <DropdownMenuItem>Billing</DropdownMenuItem>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuGroup>
+                            <DropdownMenuItem>Team</DropdownMenuItem>
+                            <DropdownMenuItem>Subscription</DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                        </DropdownMenu>
+                    ):(
+                        <Link href={"/auth"} className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg">Account <FaRegCircleUser /></Link>
 
+                    )
+                }
+            </div>
+               
             {/* mobile and tablet view */}
             <button onClick={()=> setNavOpen(!navOpen)} className="lg:hidden z-50 text-3xl mr-2">
                 {
@@ -75,8 +121,8 @@ export default function Navbar () {
                     }
                 </div>
                 <div className="flex flex-col items-center gap-6">
+                    <Link href={"/add-recipe"} style={{backgroundColor: Theme.primaryColor, borderColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
                     <Link href={"/"} className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg">Account <FaRegCircleUser /></Link>
-                    <Link href={"/"} style={{backgroundColor: Theme.primaryColor, borderColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
                 </div>
             </blockquote>
         </main>
