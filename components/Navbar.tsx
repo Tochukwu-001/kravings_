@@ -6,11 +6,15 @@ import { Theme } from "./Theme";
 import { IoIosMenu } from "react-icons/io";
 import { IoMdRestaurant } from "react-icons/io";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function Navbar () {
 
     const [navOpen, setNavOpen] = useState(false)
     // console.log(navOpen);
+
+    const {data: session} = useSession()
+    // console.log(session);
     
     const navLinks: object[] = [
         {
@@ -55,8 +59,12 @@ export default function Navbar () {
             </div>
 
             <div className="flex items-center gap-6 ml-6 max-lg:hidden">
-                <Link href={"/auth"} className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg">Account <FaRegCircleUser /></Link>
-                <Link href={"/"} style={{backgroundColor: Theme.primaryColor, borderColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
+                <Link href={"/add-recipe"} style={{backgroundColor: Theme.primaryColor, borderColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
+                {
+                    session ? "User" : (
+                        <Link href={"/auth"} className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg">Account <FaRegCircleUser /></Link>
+                    )
+                }
             </div>
 
             {/* mobile and tablet view */}
@@ -76,7 +84,7 @@ export default function Navbar () {
                 </div>
                 <div className="flex flex-col items-center gap-6">
                     <Link href={"/"} className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg">Account <FaRegCircleUser /></Link>
-                    <Link href={"/"} style={{backgroundColor: Theme.primaryColor, borderColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
+                    <Link href={"/add-recipe"} style={{backgroundColor: Theme.primaryColor, borderColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
                 </div>
             </blockquote>
         </main>

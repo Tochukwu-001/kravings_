@@ -1,11 +1,16 @@
 import { auth, signIn } from "@/auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { FaArrowLeftLong, FaEnvelope, FaLock, FaUser } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
 export default async function Auth() {
   const session = await auth()
-  console.log(session);
+  // console.log(session);
+
+  if(session){
+    redirect("/add-recipe")
+  }
   
   // Toggle this to true to see the Sign Up UI
   const isSignUp = false;
