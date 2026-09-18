@@ -1,14 +1,22 @@
 import { auth, signIn } from "@/auth";
 import { log } from "console";
 import Link from "next/link";
+import { RedirectType } from "next/navigation";
 import { FaArrowLeft, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { redirect } from "next/navigation";
+
 
 
 export default async function SignupPage() {
   const session = await auth()
   console.log(session);
 
+  if(session){
+    redirect("/add-recipe")
+  }
+
+  const isSignUp = false;
   return (
     <main className="min-h-dvh flex flex-col md:flex-row font-sans bg-white">
       

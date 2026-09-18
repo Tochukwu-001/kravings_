@@ -6,15 +6,28 @@ import { Theme } from "./Theme";
 import { IoMdRestaurant } from "react-icons/io";
 import { IoIosMenu } from "react-icons/io";
 import { use, useState } from "react";
+import { log } from "console";
+import { useSession } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { 
+    Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 
-
- 
 export default function Navbar () {
 
-    const [navOpen, setNavOpen] = useState(false)
-
+ const [navOpen, setNavOpen] = useState(false)
+    
+const {data: session} = useSession()
+console.log(session)
     const navlinks: object[] = [
         {
             label:"Home",
@@ -31,7 +44,7 @@ export default function Navbar () {
         {
             label: "FAQs",
             url: "/FAQs"
-        }
+        },
     ]
     return(
         <main className="flex items-center justify-between lg:px-20 py-2 shadow-md relative">
@@ -60,9 +73,31 @@ export default function Navbar () {
             </div>
 
             <div className="flex items-center gap-6 ml-6 max-lg:hidden">
-                <Link className="flex items-center border gap-1 px-3 py-0.5 rounded-full
-                border-gray-700 " href={"/auth"}>Accounts <FaUserCircle /> </Link>
-                <Link href={"/"} style={{backgroundColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
+                <Link href={"/add-recipe"} style={{backgroundColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
+                {
+                    session ? 
+                    <DropdownMenu>
+    <DropdownMenuTrigger render={<button />}>
+    Open
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+      <DropdownMenuItem>Billing</DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuGroup>
+      <DropdownMenuItem>Team</DropdownMenuItem>
+      <DropdownMenuItem>Subscription</DropdownMenuItem>
+    </DropdownMenuGroup>
+  </DropdownMenuContent>
+</DropdownMenu> (
+                    <Link className="flex items-center border gap-1 px-3 py-0.5 rounded-full
+                border-gray-700 " href={"/auth"}>Accounts <FaUserCircle /> </Link>)
+                }
+      
+
             </div>
 
             {/* mobile and tablet view*/}
@@ -84,7 +119,7 @@ export default function Navbar () {
             <div className="flex flex-col items-center gap-6 ">
                 <Link className="flex items-center border gap-1 px-3 py-0.5 rounded-full
                 border-gray-700 " href={"/"}>Accounts <FaUserCircle /></Link>
-                <Link href={"/"} style={{backgroundColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
+                <Link href={"/add-recipe"} style={{backgroundColor: Theme.primaryColor}} className="px-6 py-1 rounded-full text-white border text-lg">Add Recipe</Link>
             </div>
             </blockquote>
         </main>
