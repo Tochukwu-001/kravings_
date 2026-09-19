@@ -2,18 +2,16 @@ import Link from "next/link";
 import { 
   FaClock, 
   FaUtensils, 
-//   FaSparkles, 
   FaListCheck, 
-  FaBasketShopping, 
-  FaUser 
+  FaBasketShopping,
+  FaArrowRight
 } from "react-icons/fa6";
 
-// Static mock data representing posted recipes from database
 const recipes = [
   {
     id: "1",
     chefName: "Chef Amina",
-    chefImage: "", // Leave empty to showcase fallback avatar or add image path
+    chefImage: "",
     timestamp: "2 hours ago",
     recipeName: "Smoky Party Jollof Rice",
     method: "Stovetop Smoking & Simmering",
@@ -30,11 +28,8 @@ const recipes = [
       "Blend bell peppers, tomatoes, and onions into a smooth puree; boil until reduced.",
       "Sauté chopped onions in vegetable oil, stir in tomato paste and fry for 5 minutes.",
       "Pour in boiled pepper mixture and fry until oil separates from the sauce.",
-      "Add beef stock, thyme, curry, and bay leaves; bring sauce to a rolling boil.",
-      "Add washed rice, cover tightly with foil and a lid, then cook on very low heat.",
-      "Increase heat slightly at the very end to burn the bottom layer for signature smokiness."
-    ],
-    presentation: "Serve hot garnished with golden fried plantains (Dodo), fresh parsley, thin red onion rings, and a side of grilled chicken."
+      "Add beef stock, thyme, curry, and bay leaves; bring sauce to a rolling boil."
+    ]
   },
   {
     id: "2",
@@ -46,7 +41,7 @@ const recipes = [
     duration: "45 mins",
     ingredients: [
       "500g Thinly Sliced Flank Steak",
-      "1/2 cup Peanut Powder / Kuli-Kuli (Yaji Spice)",
+      "1/2 cup Peanut Powder / Kuli-Kuli",
       "1 tsp Garlic & Ginger Powder",
       "1/2 tsp Cayenne Pepper",
       "2 tbsp Vegetable Oil",
@@ -55,110 +50,162 @@ const recipes = [
     steps: [
       "Slice flank steak into thin, wide strips.",
       "Mix Yaji spice with garlic, ginger, cayenne, salt, and vegetable oil to create a rub.",
-      "Coat beef slices thoroughly with spice mix and thread onto soaked wooden skewers.",
-      "Preheat grill to high heat.",
-      "Grill skewers for 10-12 minutes, turning and basting with oil until charred at edges."
+      "Coat beef slices thoroughly with spice mix and thread onto wooden skewers.",
+      "Grill skewers for 10-12 minutes, turning until charred at edges."
+    ]
+  },
+  {
+    id: "3",
+    chefName: "Chef Zainab",
+    chefImage: "",
+    timestamp: "1 day ago",
+    recipeName: "Moroccan Lamb Tagine",
+    method: "Slow Braising",
+    duration: "2 hrs",
+    ingredients: [
+      "800g Lamb Shoulder",
+      "1 cup Dried Apricots",
+      "2 tsp Ras el Hanout",
+      "1 Saffron Pinch",
+      "2 cups Vegetable Stock"
     ],
-    presentation: "Arrange on a platter over shredded cabbage, sliced red onions, and ripe tomatoes, finished with a extra sprinkle of dry Yaji spice."
+    steps: [
+      "Sear seasoned lamb pieces until browned on all sides.",
+      "Sauté onions and spices until fragrant before returning lamb.",
+      "Add stock and simmer on low heat for 1.5 hours until tender."
+    ]
+  },
+  {
+    id: "4",
+    chefName: "Chef David",
+    chefImage: "",
+    timestamp: "2 days ago",
+    recipeName: "Golden Nigerian Puff-Puff",
+    method: "Deep Frying",
+    duration: "1 hr 15 mins",
+    ingredients: [
+      "2 cups All-Purpose Flour",
+      "1/2 cup Sugar",
+      "1 tbsp Active Dry Yeast",
+      "1/2 tsp Ground Nutmeg",
+      "Vegetable Oil for frying"
+    ],
+    steps: [
+      "Combine dry ingredients, add lukewarm water, and mix into a smooth batter.",
+      "Cover and leave in a warm place to rise for 1 hour.",
+      "Scoop batter into hot oil and fry until golden brown on all sides."
+    ]
   }
 ];
 
 export default function RecipesFeed() {
   return (
-    <main className="min-h-screen bg-gray-50 font-sans p-4 md:p-8">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <main className="min-h-screen font-sans p-4 md:p-8">
+      <div className="max-w-6xl mx-auto space-y-8">
         
         {/* Page Header */}
-        <div className="border-b border-gray-200 pb-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Community Recipes</h1>
-            <p className="text-gray-500 text-sm mt-1">
-              Explore freshly posted recipes from home cooks and chefs around the world.
-            </p>
-          </div>
+        <div className="border-b border-gray-200 pb-4">
+          <h1 className="text-3xl font-bold text-gray-900">Community Recipes</h1>
+          <p className="text-gray-500 text-sm mt-1">
+            Explore freshly posted recipes from home cooks and chefs around the world.
+          </p>
         </div>
 
-        {/* Recipe Feed List */}
-        <div className="space-y-8">
+        {/* 2 Cards Per Line Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {recipes.map((recipe) => (
             <article 
               key={recipe.id} 
-              className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6"
+              className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex flex-col justify-between space-y-5"
             >
-              {/* 1. Chef's Header: Image, Name, Timestamp */}
-              <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
-                <div className="w-12 h-12 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-[#E73F1E] font-bold text-lg overflow-hidden shrink-0">
-                  {recipe.chefImage ? (
-                    <img 
-                      src={recipe.chefImage} 
-                      alt={recipe.chefName} 
-                      className="w-full h-full object-cover" 
-                    />
-                  ) : (
-                    recipe.chefName.charAt(0)
-                  )}
+              {/* Top Details Wrapper */}
+              <div className="space-y-5">
+                
+                {/* 1. Chef's Header */}
+                <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-[#E73F1E] font-bold text-base overflow-hidden shrink-0">
+                    {recipe.chefImage ? (
+                      <img 
+                        src={recipe.chefImage} 
+                        alt={recipe.chefName} 
+                        className="w-full h-full object-cover" 
+                      />
+                    ) : (
+                      recipe.chefName.charAt(0)
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 text-sm">{recipe.chefName}</h3>
+                    <p className="text-xs text-gray-500">{recipe.timestamp}</p>
+                  </div>
                 </div>
+
+                {/* 2. Recipe Title & Badges */}
                 <div>
-                  <h3 className="font-bold text-gray-900 text-base">{recipe.chefName}</h3>
-                  <p className="text-xs text-gray-500">{recipe.timestamp}</p>
+                  <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1">
+                    {recipe.recipeName}
+                  </h2>
+                  <div className="flex flex-wrap gap-2 text-xs font-semibold text-gray-700">
+                    <span className="flex items-center gap-1.5 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200">
+                      <FaUtensils className="text-[#E73F1E]" /> 
+                      {recipe.method}
+                    </span>
+                    <span className="flex items-center gap-1.5 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200">
+                      <FaClock className="text-[#E73F1E]" /> 
+                      {recipe.duration}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* 2. Recipe Title & Badges: Name, Method, Duration */}
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                  {recipe.recipeName}
-                </h2>
-                <div className="flex flex-wrap gap-3 text-xs font-semibold text-gray-700">
-                  <span className="flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">
-                    <FaUtensils className="text-[#E73F1E]" /> 
-                    Method: {recipe.method}
-                  </span>
-                  <span className="flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">
-                    <FaClock className="text-[#E73F1E]" /> 
-                    Duration: {recipe.duration}
-                  </span>
+                {/* 3. Truncated Ingredients */}
+                <div>
+                  <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <FaBasketShopping className="text-[#E73F1E]" /> Ingredients
+                  </h4>
+                  <ul className="space-y-1.5 text-xs text-gray-700 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    {recipe.ingredients.slice(0, 2).map((ingredient, idx) => (
+                      <li key={idx} className="flex items-center gap-2 truncate">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#E73F1E] shrink-0" />
+                        <span className="truncate">{ingredient}</span>
+                      </li>
+                    ))}
+                    {recipe.ingredients.length > 2 && (
+                      <li className="text-gray-400 italic text-[11px] font-medium pt-0.5">
+                        + {recipe.ingredients.length - 2} more ingredients...
+                      </li>
+                    )}
+                  </ul>
                 </div>
+
+                {/* 4. Truncated Instructions */}
+                <div>
+                  <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <FaListCheck className="text-[#E73F1E]" /> Instructions
+                  </h4>
+                  <div className="text-xs text-gray-700 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <p className="line-clamp-2 leading-relaxed">
+                      <strong className="text-[#E73F1E] mr-1">1.</strong> 
+                      {recipe.steps[0]}
+                    </p>
+                    {recipe.steps.length > 1 && (
+                      <p className="text-gray-400 italic text-[11px] font-medium mt-1">
+                        + {recipe.steps.length - 1} more steps...
+                      </p>
+                    )}
+                  </div>
+                </div>
+
               </div>
 
-              {/* 3. Ingredients */}
-              <div>
-                <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2 flex items-center gap-2">
-                  <FaBasketShopping className="text-[#E73F1E]" /> Ingredients
-                </h4>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                  {recipe.ingredients.map((ingredient, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#E73F1E] shrink-0" />
-                      {ingredient}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* 4. Instructions / Steps */}
-              <div>
-                <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 flex items-center gap-2">
-                  <FaListCheck className="text-[#E73F1E]" /> Instructions
-                </h4>
-                <ol className="space-y-3 text-sm text-gray-700">
-                  {recipe.steps.map((step, idx) => (
-                    <li key={idx} className="flex gap-3">
-                      <span className="font-bold text-[#E73F1E] shrink-0">{idx + 1}.</span>
-                      <span className="leading-relaxed">{step}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-
-              {/* 5. Presentation / Garnishing */}
-              <div className="bg-[#FFDD9C]/20 border border-[#FFDD9C] p-4 rounded-xl space-y-1">
-                <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider flex items-center gap-1.5">
-                  {/* <FaSparkles className="text-[#E73F1E]" /> Presentation & Garnishing */}
-                </h4>
-                <p className="text-sm text-gray-800 leading-relaxed">
-                  {recipe.presentation}
-                </p>
+              {/* Read More Server Button */}
+              <div className="pt-2 border-t border-gray-100">
+                <Link 
+                  href={`/recipes/${recipe.id}`} 
+                  className="w-full flex items-center justify-center gap-2 bg-gray-900 hover:bg-black text-white font-bold py-2.5 rounded-xl text-sm transition-colors shadow-sm"
+                >
+                  Read Full Recipe
+                  <FaArrowRight className="text-xs" />
+                </Link>
               </div>
 
             </article>
