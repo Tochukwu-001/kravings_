@@ -1,144 +1,166 @@
-import Image from "next/image";
 import Link from "next/link";
-import { FaArrowRight, FaUtensils, FaGlobe, FaUsers, FaStar } from "react-icons/fa";
+import { 
+  FaArrowRightLong, 
+  FaUtensils, 
+  FaEarthAfrica, 
+  FaUsers
+} from "react-icons/fa6";
 
 export default function Home() {
   return (
-    <main className="min-h-dvh flex flex-col font-sans">
-      {/* NAVIGATION BAR */}
-      
-      {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] bg-[url('/bg.jpg')] bg-no-repeat bg-center bg-cover flex flex-col">
-        <div className="flex-1 flex flex-col justify-center min-h-[90vh] bg-black/60 text-white px-4">
-          <blockquote className="lg:w-3/5 mx-auto space-y-6 pt-10 text-center">
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
-              Africa's Finest <span className="text-[#E73F1E]">Dishes</span>
+    <main className="min-h-dvh flex flex-col">
+      {/* Hero Section */}
+      <section className="min-h-dvh bg-[url('/bg.jpg')] bg-no-repeat bg-center bg-cover relative">
+        <div className="min-h-dvh bg-black/60 text-white flex flex-col justify-center">
+          <blockquote className="lg:w-1/2 mx-auto md:pt-30 pt-10 space-y-6 max-md:p-5">
+            <h1 className="md:text-7xl text-5xl font-bold text-center leading-tight">
+              Africa's Finest <br /> <span className="text-[#FFDD9C]">Dishes</span>
             </h1>
-            <p className="tracking-wider text-lg md:text-xl text-gray-200 md:px-10 leading-relaxed">
+            <p className="tracking-wider md:text-lg text-center text-gray-200 leading-relaxed">
               Discover and share your dishes with the world on a platform built to connect a global community of food lovers, allowing you to celebrate every unique recipe, exchange homemade flavors, and unite over a shared passion for cooking.
             </p>
-            <Link href={"#"} className="bg-white text-black font-semibold flex items-center mx-auto mt-8 w-fit pl-6 pr-2 py-2 rounded-full gap-4 hover:scale-105 transition-transform shadow-lg">
-              See our Dishes
-              <button className="text-white w-10 h-10 rounded-full flex items-center justify-center transition-transform bg-[#E73F1E]">
-                <FaArrowRight />
+            <Link href={"#explore"} className="bg-white text-black flex items-center mx-auto md:mt-12 mt-8 w-fit p-2 pr-4 rounded-full gap-3 hover:scale-105 transition-transform font-medium shadow-lg">
+              <button className="text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md bg-[#E73F1E]">
+                <FaArrowRightLong />
               </button>
+              See Our Dishes
             </Link>
           </blockquote>
         </div>
       </section>
 
-      {/* FEATURES / HOW IT WORKS SECTION */}
-      <section className="py-24 px-6 md:px-12 bg-white text-gray-900">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Join Kravings?</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">Experience the rich culinary heritage of Africa and share your own kitchen creations with a passionate community.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-          {/* Feature 1 */}
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center bg-[#FFDD9C]">
-              <FaGlobe className="text-4xl text-[#E73F1E]" />
-            </div>
-            <h3 className="text-xl font-bold">Discover Recipes</h3>
-            <p className="text-gray-600">Explore thousands of authentic African recipes curated by home cooks and professional chefs alike.</p>
+      {/* Features Section */}
+      <section id="explore" className="py-24 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Why Join Kravings?</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Experience the rich heritage of African cuisine and share your culinary journey with a community that appreciates authentic flavors.</p>
           </div>
-          {/* Feature 2 */}
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center bg-[#FFDD9C]">
-              <FaUtensils className="text-4xl text-[#E73F1E]" />
+          
+          <div className="grid md:grid-cols-3 gap-10">
+            {/* Feature 1 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center flex flex-col items-center hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 text-2xl text-white bg-[#E73F1E]">
+                <FaUtensils />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-800">Authentic Recipes</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">Explore thousands of homemade dishes passed down through generations, detailed step-by-step.</p>
             </div>
-            <h3 className="text-xl font-bold">Share Your Craft</h3>
-            <p className="text-gray-600">Upload your unique dishes, share your secret ingredients, and build your own culinary portfolio.</p>
-          </div>
-          {/* Feature 3 */}
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center bg-[#FFDD9C]">
-              <FaUsers className="text-4xl text-[#E73F1E]" />
+
+            {/* Feature 2 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center flex flex-col items-center hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 text-2xl text-gray-900 bg-[#FFDD9C]">
+                <FaEarthAfrica />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-800">Global Reach</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">Bring the taste of Africa to your kitchen, no matter where you are in the world. Connect across borders.</p>
             </div>
-            <h3 className="text-xl font-bold">Connect Globally</h3>
-            <p className="text-gray-600">Interact with food lovers from across the globe, review recipes, and exchange ideas.</p>
+
+            {/* Feature 3 */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center flex flex-col items-center hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 text-2xl text-white bg-[#E73F1E]">
+                <FaUsers />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-800">Vibrant Community</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">Engage with fellow food lovers, review dishes, share tips, and build your own culinary following.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* FEATURED DISHES SECTION */}
-      <section className="py-24 px-6 md:px-12 bg-gray-50">
+      {/* Featured Dishes Section */}
+      <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Trending on Kravings</h2>
-              <p className="text-gray-600">Top-rated dishes from our community this week.</p>
+              <h2 className="text-4xl font-bold mb-3 text-gray-900">Trending Kravings</h2>
+              <p className="text-gray-600">The most loved recipes by our community this week.</p>
             </div>
-            <Link href="#" className="hidden md:flex font-semibold hover:underline items-center gap-2 text-[#E73F1E]">
-              View all <FaArrowRight className="text-sm" />
+            <Link href="#" className="hidden md:flex items-center gap-2 font-medium hover:underline text-[#E73F1E]">
+              View all recipes <FaArrowRightLong />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Dish Card 1 */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group">
-              <div className="h-64 bg-gray-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=800&auto=format&fit=crop')] bg-cover bg-center group-hover:scale-110 transition-transform duration-500"></div>
-                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-md">
-                  <FaStar className="text-yellow-400" /> 4.9
+            <div className="group cursor-pointer rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+              <div className="h-56 bg-gray-200 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gray-300 group-hover:scale-105 transition-transform duration-500"></div>
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800">
+                  4.9 ★
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">Authentic Smoky Jollof Rice</h3>
-                <p className="text-gray-500 text-sm mb-4">By Chef Amina • Nigeria</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-medium text-gray-700">45 mins</span>
-                  <button className="px-4 py-2 rounded-full text-sm font-semibold text-white transition-opacity hover:opacity-90 bg-[#E73F1E]">
-                    View Recipe
-                  </button>
-                </div>
+              <div className="p-5">
+                <span className="text-xs font-bold uppercase tracking-wider mb-2 block text-[#E73F1E]">West Africa</span>
+                <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-[#E73F1E] transition-colors">Classic Jollof Rice</h3>
+                <p className="text-gray-500 text-sm">By Chef Amina</p>
               </div>
             </div>
 
             {/* Dish Card 2 */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group">
-              <div className="h-64 bg-gray-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541832676-9b763b022144?q=80&w=800&auto=format&fit=crop')] bg-cover bg-center group-hover:scale-110 transition-transform duration-500"></div>
-                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-md">
-                  <FaStar className="text-yellow-400" /> 4.8
+            <div className="group cursor-pointer rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+              <div className="h-56 bg-gray-200 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gray-300 group-hover:scale-105 transition-transform duration-500"></div>
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800">
+                  4.8 ★
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">South African Bunny Chow</h3>
-                <p className="text-gray-500 text-sm mb-4">By Sipho M. • South Africa</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-medium text-gray-700">1 hr 20 mins</span>
-                  <button className="px-4 py-2 rounded-full text-sm font-semibold text-white transition-opacity hover:opacity-90 bg-[#E73F1E]">
-                    View Recipe
-                  </button>
-                </div>
+              <div className="p-5">
+                <span className="text-xs font-bold uppercase tracking-wider mb-2 block text-[#E73F1E]">East Africa</span>
+                <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-[#E73F1E] transition-colors">Nyama Choma</h3>
+                <p className="text-gray-500 text-sm">By David K.</p>
               </div>
             </div>
 
             {/* Dish Card 3 */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group">
-              <div className="h-64 bg-gray-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1598511796318-7b82ef4b4700?q=80&w=800&auto=format&fit=crop')] bg-cover bg-center group-hover:scale-110 transition-transform duration-500"></div>
-                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-md">
-                  <FaStar className="text-yellow-400" /> 4.9
+            <div className="group cursor-pointer rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+              <div className="h-56 bg-gray-200 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gray-300 group-hover:scale-105 transition-transform duration-500"></div>
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800">
+                  5.0 ★
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">Moroccan Chicken Tagine</h3>
-                <p className="text-gray-500 text-sm mb-4">By Youssef • Morocco</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-medium text-gray-700">2 hrs</span>
-                  <button className="px-4 py-2 rounded-full text-sm font-semibold text-white transition-opacity hover:opacity-90 bg-[#E73F1E]">
-                    View Recipe
-                  </button>
-                </div>
+              <div className="p-5">
+                <span className="text-xs font-bold uppercase tracking-wider mb-2 block text-[#E73F1E]">North Africa</span>
+                <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-[#E73F1E] transition-colors">Moroccan Tagine</h3>
+                <p className="text-gray-500 text-sm">By Fatima M.</p>
               </div>
             </div>
+
+            {/* Dish Card 4 */}
+            <div className="group cursor-pointer rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+              <div className="h-56 bg-gray-200 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gray-300 group-hover:scale-105 transition-transform duration-500"></div>
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800">
+                  4.7 ★
+                </div>
+              </div>
+              <div className="p-5">
+                <span className="text-xs font-bold uppercase tracking-wider mb-2 block text-[#E73F1E]">South Africa</span>
+                <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-[#E73F1E] transition-colors">Bobotie</h3>
+                <p className="text-gray-500 text-sm">By Siyabonga R.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-8 text-center md:hidden">
+             <Link href="#" className="inline-flex items-center gap-2 font-medium text-[#E73F1E]">
+              View all recipes <FaArrowRightLong />
+            </Link>
           </div>
         </div>
       </section>
 
-     
+      {/* CTA Section */}
+      <section className="py-20 px-6 text-white text-center bg-[#E73F1E]">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-4xl font-bold mb-6">Ready to Share Your Masterpiece?</h2>
+          <p className="mb-10 text-lg text-white/90">Join thousands of food enthusiasts on Kravings. Create your profile, upload your family recipes, and start connecting today.</p>
+          <Link href="/signup" className="inline-block bg-white px-8 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition-transform text-[#E73F1E]">
+            Get Started for Free
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }

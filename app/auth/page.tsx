@@ -1,188 +1,217 @@
 import { auth, signIn } from "@/auth";
-import { log } from "console";
 import Link from "next/link";
-import { RedirectType } from "next/navigation";
-import { FaArrowLeft, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import { redirect } from "next/navigation";
+import { FaArrowLeftLong, FaEnvelope, FaLock, FaUser } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 
-
-
-export default async function SignupPage() {
+export default async function Auth() {
   const session = await auth()
-  console.log(session);
+  // console.log(session);
 
   if(session){
     redirect("/add-recipe")
   }
-
+  
+  // Toggle this to true to see the Sign Up UI
   const isSignUp = false;
+
   return (
-    <main className="min-h-dvh flex flex-col md:flex-row font-sans bg-white">
-      
-      {/* LEFT COLUMN: Visual / Branding Panel (Hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-[url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center flex-col justify-between p-12 text-white">
-        {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+    <main className="min-h-dvh bg-gray-50 flex items-center justify-center p-4 md:p-8 font-sans">
+      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row min-h-[650px]">
+        {/* Visual / Brand Side */}
+        <div className="md:w-1/2 bg-[url('/bg.jpg')] bg-no-repeat bg-center bg-cover relative hidden md:flex flex-col justify-between p-12 text-white">
+          <div className="absolute inset-0 bg-black/60 z-0"></div>
 
-        {/* Top Logo */}
-        <div className="relative z-10">
-          <Link href="/" className="text-3xl font-extrabold tracking-tighter">
-            <span className="text-[#E73F1E]">Krav</span>ings.
-          </Link>
-        </div>
+          {/* Top Logo */}
+          <div className="relative z-10">
+            <Link href="/" className="text-3xl font-bold tracking-wider">
+              Kravings<span className="text-[#E73F1E]">.</span>
+            </Link>
+          </div>
 
-        {/* Center Quote/Text */}
-        <div className="relative z-10 space-y-4 max-w-lg mb-12">
-          <span className="px-4 py-1.5 rounded-full bg-[#FFDD9C] text-[#E73F1E] font-bold text-xs uppercase tracking-wider">
-            Join the Community
-          </span>
-          <h1 className="text-4xl xl:text-5xl font-extrabold leading-tight">
-            Share your kitchen secrets with the world.
-          </h1>
-          <p className="text-gray-300 text-lg">
-            Connect with thousands of food enthusiasts celebrating Africa's finest homemade flavors and authentic recipes.
-          </p>
-        </div>
-
-        {/* Footer info inside image */}
-        <div className="relative z-10 text-sm text-gray-400">
-          © {new Date().getFullYear()} Kravings. All rights reserved.
-        </div>
-      </div>
-
-      {/* RIGHT COLUMN: Signup Form */}
-      <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 md:px-20 py-12 lg:py-0">
-        
-        {/* Back to home link */}
-        <div className="mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#E73F1E] transition-colors">
-            <FaArrowLeft className="text-xs" /> Back to Home
-          </Link>
-        </div>
-
-        <div className="max-w-md w-full mx-auto space-y-8">
-          
-          {/* Header */}
-          <div className="space-y-2">
-            <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">Create an account</h2>
-            <p className="text-gray-500 text-sm">
-              Already have an account?{" "}
-              <Link href="/login" className="font-semibold text-[#E73F1E] hover:underline">
-                Log in
-              </Link>
+          {/* Mid Content */}
+          <div className="relative z-10 space-y-4">
+            <span className="bg-[#FFDD9C] text-gray-900 font-bold text-xs uppercase tracking-widest px-3 py-1 rounded-full">
+              Join Our Culinary Community
+            </span>
+            <h2 className="text-4xl font-bold leading-tight">
+              Celebrate and Share <br />
+              <span className="text-[#FFDD9C]">African Culinary Art</span>
+            </h2>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Unlock hundreds of authentic recipes, connect with passionate home
+              cooks, and bring home the true flavors of Africa.
             </p>
           </div>
 
-          {/* GOOGLE SIGN-IN FORM */}
-            <form
-      action={async () => {
-        "use server"
-        await signIn("google")
-      }}
-    >
-      <button type="submit"
-        className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-slate-200 rounded-lg text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-all duration-200 shadow-sm">
-        <FcGoogle className="text-xl" />
-          <p>Signin with Google</p>
-          </button>
-    </form>
-    console.log("action");
-    
+          {/* Footer Quote */}
+          <div className="relative z-10 pt-6 border-t border-white/20 text-xs text-gray-300">
+            "Food brings people together on a level that's very separate from
+            words."
+          </div>
+        </div>
 
-          {/* Divider */}
-          <div className="flex items-center my-6">
-            <div className="flex-grow border-t border-gray-200"></div>
-            <span className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Or with email</span>
-            <div className="flex-grow border-t border-gray-200"></div>
+        {/* Auth Form Side */}
+        <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between relative bg-white">
+          {/* Top Bar Navigation */}
+          <div className="flex justify-between items-center mb-8">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#E73F1E] transition-colors"
+            >
+              <FaArrowLeftLong /> Home
+            </Link>
+            <div className="text-sm">
+              <span className="text-gray-500">
+                {isSignUp ? "Already a member?" : "Don't have an account?"}
+              </span>{" "}
+              <Link
+                href={isSignUp ? "/signin" : "/signup"}
+                className="font-bold text-[#E73F1E] hover:underline cursor-pointer ml-1"
+              >
+                {isSignUp ? "Sign In" : "Sign Up"}
+              </Link>
+            </div>
           </div>
 
-          {/* EMAIL FORM FIELDS */}
-          <form action="/api/auth/signup" method="POST" className="space-y-5">
-            
-            {/* Full Name */}
-            <div className="space-y-1">
-              <label htmlFor="name" className="block text-xs font-bold text-gray-700 uppercase tracking-wider">Full Name</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                  <FaUser />
-                </span>
-                <input 
-                  id="name"
-                  name="name"
-                  type="text" 
-                  placeholder="Amina Bello" 
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#E73F1E] focus:bg-white transition"
-                  required
-                />
-              </div>
-            </div>
+          {/* Form Header */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-gray-900">
+              {isSignUp ? "Create your account" : "Welcome back"}
+            </h1>
+            <p className="text-gray-500 text-sm mt-1">
+              {isSignUp
+                ? "Join Kravings to start bookmarking and sharing recipes."
+                : "Enter your details to access your saved recipes and account."}
+            </p>
+          </div>
 
-            {/* Email */}
-            <div className="space-y-1">
-              <label htmlFor="email" className="block text-xs font-bold text-gray-700 uppercase tracking-wider">Email Address</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                  <FaEnvelope />
-                </span>
-                <input 
-                  id="email"
-                  name="email"
-                  type="email" 
-                  placeholder="amina@example.com" 
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#E73F1E] focus:bg-white transition"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div className="space-y-1">
-              <label htmlFor="password" className="block text-xs font-bold text-gray-700 uppercase tracking-wider">Password</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                  <FaLock />
-                </span>
-                <input 
-                  id="password"
-                  name="password"
-                  type="password" 
-                  placeholder="••••••••" 
-                  minLength={8}
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#E73F1E] focus:bg-white transition"
-                  required
-                />
-              </div>
-              <p className="text-xs text-gray-400 pt-1">Must be at least 8 characters long.</p>
-            </div>
-
-            {/* Terms checkbox */}
-            <div className="flex items-start gap-2 pt-1">
-              <input 
-                type="checkbox" 
-                id="terms" 
-                name="terms"
-                className="mt-1 rounded border-gray-300 text-[#E73F1E] focus:ring-[#E73F1E]" 
-                required 
-              />
-              <label htmlFor="terms" className="text-xs text-gray-500 leading-relaxed">
-                I agree to Kravings's <Link href="/terms" className="text-gray-900 underline font-medium">Terms of Service</Link> and <Link href="/privacy" className="text-gray-900 underline font-medium">Privacy Policy</Link>.
-              </label>
-            </div>
-
-            {/* Submit Button */}
-            <button 
-              type="submit" 
-              className="w-full py-3.5 px-4 rounded-xl font-bold text-white bg-[#E73F1E] hover:opacity-95 transition shadow-lg text-sm"
+          {/* Social Auth Button */}
+          <div className="space-y-4">
+            <form
+              action={async () => {
+                "use server";
+                await signIn("google");
+              }}
+            >    
+            <button
+              type="submit"
+              className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-3.5 px-4 rounded-xl transition-all shadow-sm cursor-pointer"
             >
-              Create Account
+              <FcGoogle className="text-2xl" />
+              <span>Sign in with Google</span>
             </button>
+            </form>
 
-          </form>
+            {/* Divider */}
+            <div className="relative flex items-center justify-center my-6">
+              <div className="border-t border-gray-200 w-full"></div>
+              <span className="bg-white px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider absolute">
+                Or continue with email
+              </span>
+            </div>
+          </div>
 
+          {/* Form UI */}
+          <div className="space-y-4">
+            {/* Full Name Field (Sign Up Only) */}
+            {isSignUp && (
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="fullName"
+                    placeholder="Chef Amina"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                  />
+                  <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                </div>
+              </div>
+            )}
+
+            {/* Email Field */}
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                Email Address
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="amina@example.com"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                />
+                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Password
+                </label>
+                {!isSignUp && (
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs font-semibold text-[#E73F1E] hover:underline"
+                  >
+                    Forgot password?
+                  </Link>
+                )}
+              </div>
+              <div className="relative">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-900"
+                />
+                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+              </div>
+            </div>
+
+            {/* Terms Checkbox (Sign Up Only) */}
+            {isSignUp && (
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  className="w-4 h-4 text-[#E73F1E] border-gray-300 rounded focus:ring-[#E73F1E] cursor-pointer"
+                />
+                <label htmlFor="terms" className="text-xs text-gray-500">
+                  I agree to the{" "}
+                  <Link
+                    href="/terms"
+                    className="text-gray-900 font-semibold underline"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="/privacy"
+                    className="text-gray-900 font-semibold underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                </label>
+              </div>
+            )}
+
+            {/* Action Button */}
+            <button
+              type="button"
+              className="w-full bg-[#E73F1E] hover:bg-[#c93518] text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-[#E73F1E]/20 mt-2 cursor-pointer"
+            >
+              {isSignUp ? "Create Account" : "Sign In"}
+            </button>
+          </div>
         </div>
       </div>
-
     </main>
   );
 }
