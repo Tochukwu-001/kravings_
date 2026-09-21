@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Sansita_Swashed, Slabo_13px } from "next/font/google";
+import { Sansita_Swashed, Slabo_13px, Geist } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/footer";
+import Provider from "@/components/Provider";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const sansitaSwashed = Sansita_Swashed({
   subsets: ["latin"],
@@ -22,13 +26,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
-      className={`${slabo.className} h-full antialiased`}
-    >
+      lang="en" className={cn("h-full", "antialiased", slabo.className, "font-sans", geist.variable)}>
       <body className="min-h-full flex flex-col">
+        <Provider>
         <Navbar/>
         {children}
         <Footer/>
+        </Provider>
       </body>
     </html>
   );

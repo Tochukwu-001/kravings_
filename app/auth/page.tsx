@@ -70,7 +70,7 @@ export default async function Auth({
                 href={isSignUp ? "?mode=signin" : "?mode=signup"}
                 className="font-bold text-[#E73F1E] hover:underline cursor-pointer ml-1"
               >
-                {isSignUp ? "Sign In" : "Sign Up"}
+                {isSignUp ? "Sign In" : "Sign  Up"}
               </Link>
             </div>
           </div>
