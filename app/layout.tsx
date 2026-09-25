@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import {Sansita_Swashed, Slabo_13px} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Providers from "@/components/Provider";
 
 const sansitaSwashed = Sansita_Swashed({
   subsets: ["latin"],
@@ -26,9 +28,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${slabo.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Providers>
         <Navbar/>
         {children}
-        </body>
+         <Footer/>
+         </Providers>
+        </body>/.min-h-full.flex-col
     </html>
   );
 }
