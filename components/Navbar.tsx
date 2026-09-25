@@ -138,9 +138,6 @@ export default function Navbar() {
         </div>
         <div className="flex flex-col items-center gap-6">
           <Link
-<<<<<<< HEAD
-            href={"/"}
-=======
             href={"/add-recipe"}
             style={{
                 backgroundColor: Theme.primaryColor,
@@ -178,31 +175,13 @@ export default function Navbar() {
         ) : (
           <Link
             href={"/auth"}
->>>>>>> 8f401fbe91697ebd4d7951756ee53ba4a5dfd733
             className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg"
           >
             Account <FaRegCircleUser />
           </Link>
-<<<<<<< HEAD
-          <Link
-            href={"/view-recipe"}
-            style={{
-              backgroundColor: Theme.primaryColor,
-              borderColor: Theme.primaryColor,
-            }}
-            className="px-6 py-1 rounded-full text-white border text-lg"
-          >
-            Add Recipe
-          </Link>
-=======
         )}
->>>>>>> 8f401fbe91697ebd4d7951756ee53ba4a5dfd733
         </div>
       </blockquote>
     </main>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 8f401fbe91697ebd4d7951756ee53ba4a5dfd733

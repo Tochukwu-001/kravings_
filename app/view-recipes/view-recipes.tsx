@@ -6,100 +6,36 @@ import {
   FaBasketShopping,
   FaArrowRight
 } from "react-icons/fa6";
+import {collection, doc, getDocs} from "firebase/firestore";
+import {db} from "@/config/firebase";
+import { useEffect} from "react";
 
 const recipes = [
-  {
-    id: "1",
-    chefName: "Chef Amina",
-    chefImage: "",
-    timestamp: "2 hours ago",
-    recipeName: "Smoky Party Jollof Rice",
-    method: "Stovetop Smoking & Simmering",
-    duration: "1 hr 30 mins",
-    ingredients: [
-      "3 cups Long Grain Parboiled Rice",
-      "6 large Red Bell Peppers (Tatashe)",
-      "4 Fresh Tomatoes & 2 Red Onions",
-      "1/2 cup Tomato Paste",
-      "2 cups Rich Beef Stock",
-      "Thyme, Curry powder, Bay leaves & Salt"
-    ],
-    steps: [
-      "Blend bell peppers, tomatoes, and onions into a smooth puree; boil until reduced.",
-      "Sauté chopped onions in vegetable oil, stir in tomato paste and fry for 5 minutes.",
-      "Pour in boiled pepper mixture and fry until oil separates from the sauce.",
-      "Add beef stock, thyme, curry, and bay leaves; bring sauce to a rolling boil."
-    ]
-  },
-  {
-    id: "2",
-    chefName: "Chef Kwame",
-    chefImage: "",
-    timestamp: "5 hours ago",
-    recipeName: "Authentic Beef Suya Skewers",
-    method: "High-Heat Grilling",
-    duration: "45 mins",
-    ingredients: [
-      "500g Thinly Sliced Flank Steak",
-      "1/2 cup Peanut Powder / Kuli-Kuli",
-      "1 tsp Garlic & Ginger Powder",
-      "1/2 tsp Cayenne Pepper",
-      "2 tbsp Vegetable Oil",
-      "Seasoning Cubes & Salt"
-    ],
-    steps: [
-      "Slice flank steak into thin, wide strips.",
-      "Mix Yaji spice with garlic, ginger, cayenne, salt, and vegetable oil to create a rub.",
-      "Coat beef slices thoroughly with spice mix and thread onto wooden skewers.",
-      "Grill skewers for 10-12 minutes, turning until charred at edges."
-    ]
-  },
-  {
-    id: "3",
-    chefName: "Chef Zainab",
-    chefImage: "",
-    timestamp: "1 day ago",
-    recipeName: "Moroccan Lamb Tagine",
-    method: "Slow Braising",
-    duration: "2 hrs",
-    ingredients: [
-      "800g Lamb Shoulder",
-      "1 cup Dried Apricots",
-      "2 tsp Ras el Hanout",
-      "1 Saffron Pinch",
-      "2 cups Vegetable Stock"
-    ],
-    steps: [
-      "Sear seasoned lamb pieces until browned on all sides.",
-      "Sauté onions and spices until fragrant before returning lamb.",
-      "Add stock and simmer on low heat for 1.5 hours until tender."
-    ]
-  },
-  {
-    id: "4",
-    chefName: "Chef David",
-    chefImage: "",
-    timestamp: "2 days ago",
-    recipeName: "Golden Nigerian Puff-Puff",
-    method: "Deep Frying",
-    duration: "1 hr 15 mins",
-    ingredients: [
-      "2 cups All-Purpose Flour",
-      "1/2 cup Sugar",
-      "1 tbsp Active Dry Yeast",
-      "1/2 tsp Ground Nutmeg",
-      "Vegetable Oil for frying"
-    ],
-    steps: [
-      "Combine dry ingredients, add lukewarm water, and mix into a smooth batter.",
-      "Cover and leave in a warm place to rise for 1 hour.",
-      "Scoop batter into hot oil and fry until golden brown on all sides."
-    ]
-  }
 ];
+  export default function RecipsFeed() {
+    const handleFetch = async () => {
+      try { 
+        const querySnapshot = await getDocs(collection(db, "recipes"));
+        querySnapshot.forEach((doc))=> {
+          console.log(doc.id, "=>", doc.data());
+          const postobj = {
+            id: doc.id,
+            ...doc.data()
+          }
+          console.log(postobj);
 
-export default function RecipesFeed() {
-  return (
+        });
+      } catch(error) {
+        console.error("Error", error)
+        alert("something went wrong!")
+      }
+    }
+  
+useEffect(())=>{
+  handleFetch()
+}, [])
+
+return (
     <main className="min-h-screen font-sans p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         

@@ -7,8 +7,18 @@ import { db } from "@/config/firebase";
 import { title } from "process";
 import { METHODS } from "http";
 import { timeStamp } from "console";
+import { FaSpinner } from "react-icons/fa";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function RecipeClient({session}) {
+  const [processing, setProcessing] = useState(false)
   const firstValues = {
     title: "",
     ingredients: "",
@@ -58,20 +68,18 @@ export default function RecipeClient({session}) {
             initialValues={firstValues}
             validationSchema={valObject}
             onSubmit={async (values, { resetForm }) => {
-              console.log(values);
+            //console.log(values);
+              setProcessing(true)
               const docRef = await addDoc(collection(db, "recipes"), {
-                title: values.title,
-                ingredients: values.ingredients ,
-                method: values.methods,
-                duration: values.duration,
-                instructions: values.instructions,
-                timeStamp: new Date().toLocaleDateString()
-                author:session?.user?.name || "user",
-                authorImg:session?.user?.image|| "user",
-                authorEmail: session?.user?.email||"@email.com",
-                
+               author: session?.user?.name,
+               img: session?.user?.image,
+               timestamp: new Date().toLocaleDateString(),
+               email: session?.user?.email,
+               ...values,
               });
-              console.log("Document written with ID: ", docRef.id);
+              resetForm();
+              setProcessing(false)
+              // console.log("Document written with ID: ", docRef.id);
             }}
           >
             <Form className="space-y-6">
@@ -176,17 +184,34 @@ export default function RecipeClient({session}) {
               {/* Submit Button */}
               <div className="pt-4 border-t border-gray-100">
                 <button
+                disabled= {processing}
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-[#E73F1E] hover:bg-[#c93518] text-white font-bold py-3.5 rounded-xl transition-colors shadow-sm shadow-[#E73F1E]/20 text-base"
+                  className={`w-full flex items-center justify-center gap-2 bg-[#E73F1E] hover:bg-[#c93518] text-white font-bold py-3.5 rounded-xl transition-colors shadow-sm shadow-[#E73F1E]/20 text-base ${processing ? "opacity-70 cursor-not-allowed" : ""}`}
                 >
-                  <FaCheck />
+                  { processing? (
+                   <span className= "flex items-center gap-2"><FaSpinner className= "animate-spin" />Submitting...</span>
+                  ):(
+                    <span className= "flex items-center gap-2">
+                 <FaCheck />
                   Submit Recipe
+                  </span>
+                   )}
                 </button>
               </div>
             </Form>
           </Formik>
         </div>
       </div>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Recipe Submitted!</DialogTitle>
+            <DialogDescription>
+              Your recipe was successfully saved and posted to the community.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }
