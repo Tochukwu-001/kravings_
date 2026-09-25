@@ -1,29 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaEarthAfrica, FaHeart, FaUsers, FaArrowRightLong } from "react-icons/fa6";
+import { 
+  FaHeart, 
+  FaGlobe, 
+  FaBowlFood 
+} from "react-icons/fa6";
 
 export default function About() {
   return (
-    <main className="min-h-dvh bg-gray-50">
-      
-      {/* 1. HERO SECTION */}
-      <section className="bg-gray-900 text-white py-24 px-5 relative overflow-hidden">
-        {/* Subtle background decoration */}
-        <div className="absolute top-0 right-0 -mt-20 -mr-20 w-72 h-72 bg-[#E73F1E] rounded-full blur-3xl opacity-20"></div>
-        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-[#FFDD9C] rounded-full blur-3xl opacity-10"></div>
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h1 className="md:text-6xl text-4xl font-bold mb-6">
-            More than just recipes. <br />
-            <span className="text-[#FFDD9C]">It's our heritage.</span>
+    <main className="min-h-dvh flex flex-col font-sans bg-gray-50">
+
+      {/* Hero Section */}
+      <section className="relative py-24 bg-gray-900 text-white text-center px-6">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <h1 className="md:text-6xl text-4xl font-bold leading-tight">
+            Our Mission to Share <br />
+            <span className="text-[#FFDD9C]">African Flavors</span>
           </h1>
-          <p className="md:text-xl text-lg text-gray-300 leading-relaxed">
-            Kravings is a global community dedicated to documenting, sharing, and 
-            celebrating the rich, diverse, and deeply flavorful culinary traditions of Africa.
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            Kravings is more than just a recipe platform. It’s a global movement celebrating the rich, diverse, and vibrant culinary heritage of the African continent.
           </p>
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* 2. OUR STORY SECTION */}
       <section className="py-20 px-5 md:px-20 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -48,10 +48,31 @@ export default function About() {
             {/* Using a placeholder div for the image. Replace with Next/Image when you have assets */}
             <div className="absolute inset-0 bg-gray-200 bg-[url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center"></div>
             <div className="absolute inset-0 bg-black/20"></div>
+=======
+      {/* Our Story Section */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div className="space-y-6">
+            <h2 className="text-4xl font-bold text-gray-900">The Story Behind Kravings</h2>
+            <div className="w-20 h-1 bg-[#E73F1E] rounded-full"></div>
+            <p className="text-gray-600 leading-relaxed text-lg">
+              We started Kravings with a simple realization: the world needed to experience the true depth of African cuisine. From the spicy stews of West Africa to the aromatic tagines of the North, our food tells a story of culture, history, and community.
+            </p>
+            <p className="text-gray-600 leading-relaxed text-lg">
+              Our platform was built to give home cooks, professional chefs, and food enthusiasts a dedicated space to document their family recipes, exchange techniques, and unite over a shared passion for cooking. Whether you're miles away from home or simply curious about new flavors, Kravings is your kitchen away from home.
+            </p>
+          </div>
+          <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-xl bg-gray-200">
+            {/* Replace with your actual image */}
+            <div className="absolute inset-0 bg-gray-300 flex items-center justify-center text-gray-500">
+              [About Us Image / Kitchen Scene]
+            </div>
+>>>>>>> 8f401fbe91697ebd4d7951756ee53ba4a5dfd733
           </div>
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* 3. CORE VALUES SECTION */}
       <section className="py-20 px-5 md:px-20 bg-white border-y border-gray-100">
         <div className="max-w-7xl mx-auto">
@@ -94,55 +115,75 @@ export default function About() {
               <p className="text-gray-600">
                 By documenting these recipes, we are preserving African culture and history 
                 for generations to come.
+=======
+      {/* Core Values */}
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Our Core Values</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">The principles that guide everything we do and build for our community.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {/* Value 1 */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-gray-100 text-center hover:-translate-y-2 transition-transform duration-300">
+              <div className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-6 text-3xl text-white bg-[#E73F1E] rotate-3">
+                <FaBowlFood className="-rotate-3" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-gray-900">Authenticity</h3>
+              <p className="text-gray-600 leading-relaxed">
+                We prioritize genuine, homemade recipes passed down through generations. We want the real ingredients, the real methods, and the real stories.
+              </p>
+            </div>
+
+            {/* Value 2 */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-gray-100 text-center hover:-translate-y-2 transition-transform duration-300">
+              <div className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-6 text-3xl text-gray-900 bg-[#FFDD9C] -rotate-3">
+                <FaHeart className="rotate-3" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-gray-900">Community First</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Food tastes better when shared. We foster a positive, supportive, and engaging environment where every cook feels valued and celebrated.
+              </p>
+            </div>
+
+            {/* Value 3 */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-gray-100 text-center hover:-translate-y-2 transition-transform duration-300">
+              <div className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-6 text-3xl text-white bg-[#E73F1E] rotate-3">
+                <FaGlobe className="-rotate-3" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4 text-gray-900">Global Connection</h3>
+              <p className="text-gray-600 leading-relaxed">
+                We bridge the gap between continents, bringing the diaspora closer to home and introducing the rest of the world to the magic of African dining.
+>>>>>>> 8f401fbe91697ebd4d7951756ee53ba4a5dfd733
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. TEAM / COMMUNITY HIGHLIGHT */}
-      <section className="py-20 px-5 md:px-20 max-w-7xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Built for You, By You</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto mb-10 text-lg">
-          Kravings isn't just run by a small team; it is powered by thousands of contributors 
-          across the continent and the diaspora. Every recipe you see is a piece of someone's 
-          home shared with you.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <div className="bg-gray-100 px-6 py-3 rounded-full font-semibold text-gray-700 border border-gray-200">500+ Recipes</div>
-          <div className="bg-gray-100 px-6 py-3 rounded-full font-semibold text-gray-700 border border-gray-200">50+ African Countries</div>
-          <div className="bg-gray-100 px-6 py-3 rounded-full font-semibold text-gray-700 border border-gray-200">10k+ Community Members</div>
-        </div>
-      </section>
-
-      {/* 5. CTA SECTION */}
-      <section className="py-20 px-5 bg-[#E73F1E] text-white">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h2 className="text-3xl md:text-5xl font-bold">Have a family recipe to share?</h2>
-          <p className="text-[#FFDD9C] text-lg md:text-xl">
-            Don't let that secret spice blend stay hidden. Join Kravings today and share your kitchen magic with the world.
-          </p>
-          <Link href="/signup" className="inline-flex items-center gap-2 bg-white text-[#E73F1E] px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-xl">
-            Join the Community <FaArrowRightLong />
-          </Link>
-        </div>
-      </section>
-
-      {/* 6. FOOTER */}
-      <footer className="bg-gray-900 text-gray-400 py-10 text-center">
-        <div className="max-w-7xl mx-auto px-5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white text-2xl font-bold tracking-widest">KRAVINGS</p>
-          <div className="flex gap-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <Link href="/recipes" className="hover:text-white transition-colors">Recipes</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+      {/* CTA Section */}
+      <section className="py-24 px-6 text-center bg-white">
+        <div className="max-w-4xl mx-auto bg-gray-900 rounded-3xl p-12 md:p-20 relative overflow-hidden">
+          <div className="relative z-10">
+            <h2 className="text-4xl font-bold mb-6 text-white">Join the Kravings Family</h2>
+            <p className="mb-10 text-lg text-gray-300 max-w-2xl mx-auto">
+              Whether you're here to discover your next favorite meal or share a secret family recipe, there's a place for you at our table.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link href="/signup" className="px-8 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition-transform bg-[#E73F1E] text-white">
+                Create an Account
+              </Link>
+              <Link href="/recipes" className="px-8 py-4 rounded-full font-bold border border-gray-500 hover:border-white text-white transition-all">
+                Explore Recipes
+              </Link>
+            </div>
           </div>
-          <p className="text-sm">© {new Date().getFullYear()} Kravings. All rights reserved.</p>
+          {/* Decorative background shapes */}
+          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-[#E73F1E] opacity-20 blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 rounded-full bg-[#FFDD9C] opacity-20 blur-3xl"></div>
         </div>
-      </footer>
-
+      </section>
     </main>
   );
 }
-        
-    

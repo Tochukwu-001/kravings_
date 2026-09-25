@@ -1,150 +1,189 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { FaChevronDown, FaHeadset, FaArrowRightLong } from "react-icons/fa6";
+import { 
+  FaArrowLeftLong, 
+  FaMagnifyingGlass, 
+  FaChevronDown, 
+  FaMessage,
+  FaUtensils,
+  FaUser,
+  FaShieldHalved
+} from "react-icons/fa6";
 
-export default function FAQs() {
-  const generalFaqs = [
+export default function FAQ() {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const categories = [
+    { id: "all", name: "All Questions", icon: FaQuestionCircleIcon },
+    { id: "recipes", name: "Recipes & Cooking", icon: FaUtensils },
+    { id: "account", name: "Account & Profile", icon: FaUser },
+    { id: "community", name: "Community Guidelines", icon: FaShieldHalved },
+  ];
+
+  const faqs = [
     {
-      question: "What exactly is Kravings?",
-      answer: "Kravings is a global platform built to discover, document, and share authentic African dishes. We connect food lovers, home cooks, and chefs to celebrate the rich culinary heritage of Africa."
+      category: "recipes",
+      question: "How do I submit my own recipe to Kravings?",
+      answer: "Once logged in, click the 'Post Recipe' button in your dashboard. You can upload high-resolution photos, add ingredients with precise measurements, step-by-step cooking instructions, and tag the origin region of your dish."
     },
     {
-      question: "Is Kravings free to use?",
-      answer: "Absolutely! Browsing recipes, creating an account, and sharing your own dishes with the Kravings community is 100% free."
+      category: "recipes",
+      question: "Are the recipes on Kravings authentic African dishes?",
+      answer: "Yes! Kravings is driven by a global community of home cooks, grandmothers, professional chefs, and culinary enthusiasts who share genuine family recipes from across the African continent and diaspora."
     },
     {
-      question: "Do I need an account to view recipes?",
-      answer: "No, you can browse and explore all recipes as a guest. However, creating a free account allows you to save your favorite dishes, leave reviews, and share your own recipes."
+      category: "account",
+      question: "Is Kravings completely free to use?",
+      answer: "Yes, browsing, sharing, and saving recipes on Kravings is 100% free for all users. We believe authentic African culinary knowledge should be accessible to everyone."
+    },
+    {
+      category: "recipes",
+      question: "Can I save recipes to cook later?",
+      answer: "Absolutely. Simply click the bookmark icon on any recipe card to save it directly to your personal cookbook collection inside your account."
+    },
+    {
+      category: "community",
+      question: "How do I report inappropriate content or inaccurate recipes?",
+      answer: "Every recipe card and comment has a small flag icon. Click the icon to report the item, and our moderation team will review it within 24 hours to keep the community safe and authentic."
+    },
+    {
+      category: "account",
+      question: "How can I update my profile details or profile picture?",
+      answer: "Navigate to your Account Settings from your user avatar menu. There you can update your bio, display name, culinary specialties, and profile picture anytime."
     }
   ];
 
-  const recipeFaqs = [
-    {
-      question: "How do I submit my own family recipe?",
-      answer: "Once you create an account, simply log in, navigate to your dashboard, and click on 'Share a Recipe'. You can upload images, list ingredients, and provide step-by-step instructions."
-    },
-    {
-      question: "Are the recipes on Kravings authentic?",
-      answer: "Yes! Our recipes are crowdsourced from actual home cooks, mothers, and chefs across the African continent and the diaspora. We encourage traditional preparation methods alongside modern twists."
-    },
-    {
-      question: "Can I adjust the serving sizes for recipes?",
-      answer: "Yes, our dynamic recipe pages allow you to adjust the serving size, and the ingredient quantities will automatically scale up or down for your convenience."
-    },
-    {
-      question: "How do I save a recipe for later?",
-      answer: "When logged in, you will see a heart/bookmark icon on every recipe card. Clicking it will save the dish to your personal 'Kravings Cookbook' in your profile."
-    }
-  ];
+  const filteredFaqs = faqs.filter((faq) => {
+    const matchesCategory = activeCategory === "all" || faq.category === activeCategory;
+    const matchesSearch = faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const toggleAccordion = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
-    <main className="min-h-dvh bg-gray-50 flex flex-col">
-      
-      {/* 1. HERO SECTION */}
-      <section className="bg-gray-900 text-white py-20 px-5 relative overflow-hidden">
-        {/* Subtle background decoration */}
-        <div className="absolute top-0 right-1/4 -mt-20 w-72 h-72 bg-[#FFDD9C] rounded-full blur-[100px] opacity-10"></div>
-        <div className="absolute bottom-0 left-1/4 -mb-20 w-72 h-72 bg-[#E73F1E] rounded-full blur-[100px] opacity-20"></div>
+    <main className="min-h-dvh bg-gray-50 font-sans py-12 px-6 flex flex-col items-center">
+      <div className="w-full max-w-4xl mx-auto">
         
-        <div className="max-w-3xl mx-auto text-center relative z-10">
-          <h1 className="md:text-5xl text-4xl font-bold mb-4">
-            Frequently Asked <span className="text-[#E73F1E]">Questions</span>
+        {/* Back Link */}
+        <Link href="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-[#E73F1E] mb-8 font-medium transition-colors">
+          <FaArrowLeftLong /> Back to Home
+        </Link>
+
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <span className="text-[#E73F1E] font-bold uppercase tracking-widest text-sm bg-[#E73F1E]/10 px-4 py-1.5 rounded-full inline-block mb-4">
+            Help Center
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Frequently Asked Questions
           </h1>
-          <p className="md:text-lg text-gray-300">
-            Everything you need to know about joining the community, sharing recipes, 
-            and exploring the flavors of Africa.
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Everything you need to know about sharing, discovering, and cooking African recipes on Kravings.
           </p>
-        </div>
-      </section>
 
-      {/* 2. FAQ CONTENT SECTION */}
-      <section className="py-20 px-5 max-w-4xl mx-auto w-full flex-grow">
-        
-        {/* General Questions Category */}
-        <div className="mb-14">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-            <span className="w-8 h-8 rounded-full bg-[#FFDD9C] text-[#E73F1E] flex items-center justify-center text-sm">1</span>
-            General Information
-          </h2>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            {generalFaqs.map((faq, index) => (
-              <details 
-                key={index} 
-                className="group border-b border-gray-100 last:border-none"
-              >
-                <summary className="flex justify-between items-center font-semibold cursor-pointer list-none p-6 text-gray-800 hover:text-[#E73F1E] transition-colors text-lg [&::-webkit-details-marker]:hidden">
-                  <span>{faq.question}</span>
-                  <span className="transition-transform duration-300 group-open:-rotate-180 text-gray-400 group-hover:text-[#E73F1E]">
-                    <FaChevronDown />
-                  </span>
-                </summary>
-                <div className="px-6 pb-6 text-gray-600 leading-relaxed text-base animate-[fadeIn_0.3s_ease-in-out]">
-                  {faq.answer}
+          {/* Search Bar */}
+          <div className="mt-8 relative max-w-xl mx-auto">
+            <input
+              type="text"
+              placeholder="Search for answers (e.g. posting recipes, account, guidelines)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#E73F1E]/50 transition-all text-gray-800"
+            />
+            <FaMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+          </div>
+        </div>
+
+        {/* Category Filter Pills */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                activeCategory === cat.id
+                  ? "bg-[#E73F1E] text-white shadow-md shadow-[#E73F1E]/20"
+                  : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-100"
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+
+        {/* FAQ Accordion List */}
+        <div className="space-y-4 mb-16">
+          {filteredFaqs.length > 0 ? (
+            filteredFaqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div
+                  key={index}
+                  className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-all duration-200"
+                >
+                  <button
+                    onClick={() => toggleAccordion(index)}
+                    className="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
+                  >
+                    <span className="font-bold text-gray-900 text-lg md:text-xl">
+                      {faq.question}
+                    </span>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                      isOpen ? "bg-[#E73F1E] text-white rotate-180" : "bg-gray-100 text-gray-600"
+                    }`}>
+                      <FaChevronDown className="text-sm" />
+                    </div>
+                  </button>
+
+                  {isOpen && (
+                    <div className="px-6 pb-6 pt-2 text-gray-600 leading-relaxed border-t border-gray-50">
+                      {faq.answer}
+                    </div>
+                  )}
                 </div>
-              </details>
-            ))}
-          </div>
+              );
+            })
+          ) : (
+            <div className="text-center py-12 bg-white rounded-2xl border border-gray-100">
+              <p className="text-gray-500 text-lg">No matching questions found.</p>
+            </div>
+          )}
         </div>
 
-        {/* Recipes & Cooking Category */}
-        <div className="mb-10">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-            <span className="w-8 h-8 rounded-full bg-[#FFDD9C] text-[#E73F1E] flex items-center justify-center text-sm">2</span>
-            Recipes & Cooking
-          </h2>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            {recipeFaqs.map((faq, index) => (
-              <details 
-                key={index} 
-                className="group border-b border-gray-100 last:border-none"
-              >
-                <summary className="flex justify-between items-center font-semibold cursor-pointer list-none p-6 text-gray-800 hover:text-[#E73F1E] transition-colors text-lg [&::-webkit-details-marker]:hidden">
-                  <span>{faq.question}</span>
-                  <span className="transition-transform duration-300 group-open:-rotate-180 text-gray-400 group-hover:text-[#E73F1E]">
-                    <FaChevronDown />
-                  </span>
-                </summary>
-                <div className="px-6 pb-6 text-gray-600 leading-relaxed text-base">
-                  {faq.answer}
-                </div>
-              </details>
-            ))}
+        {/* Still Have Questions CTA */}
+        <div className="bg-gray-900 rounded-3xl p-8 md:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
+          <div className="space-y-2 text-center md:text-left z-10">
+            <h3 className="text-2xl font-bold">Still have questions?</h3>
+            <p className="text-gray-400">Can't find the answer you're looking for? Reach out to our team.</p>
           </div>
-        </div>
-
-      </section>
-
-      {/* 3. STILL NEED HELP CTA */}
-      <section className="py-16 px-5 bg-[#FFDD9C]/30 border-t border-[#FFDD9C]/50 text-center">
-        <div className="max-w-2xl mx-auto">
-          <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-[#E73F1E] mx-auto mb-6 shadow-sm border border-[#FFDD9C]">
-            <FaHeadset size={28} />
-          </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Still have questions?</h2>
-          <p className="text-gray-700 mb-8 text-lg">
-            Can't find the answer you're looking for? Our friendly team is here to help you out.
-          </p>
-          <Link 
-            href="/contact" 
-            className="inline-flex items-center gap-2 bg-[#E73F1E] text-white px-8 py-4 rounded-full font-bold hover:bg-[#c93518] transition-colors shadow-lg shadow-[#E73F1E]/30"
+          <Link
+            href="/contact"
+            className="z-10 bg-[#E73F1E] hover:bg-[#c93518] text-white px-8 py-4 rounded-xl font-bold transition-all flex items-center gap-3 shrink-0 shadow-md"
           >
-            Contact Support <FaArrowRightLong />
+            <FaMessage /> Contact Support
           </Link>
+          {/* Background Decorative Glow */}
+          <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-[#FFDD9C] rounded-full opacity-10 blur-3xl"></div>
         </div>
-      </section>
 
-      {/* 4. FOOTER */}
-      <footer className="bg-gray-900 text-gray-400 py-10 text-center mt-auto">
-        <div className="max-w-7xl mx-auto px-5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white text-2xl font-bold tracking-widest">KRAVINGS</p>
-          <div className="flex gap-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <Link href="/about" className="hover:text-white transition-colors">About</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
-          </div>
-          <p className="text-sm">© {new Date().getFullYear()} Kravings. All rights reserved.</p>
-        </div>
-      </footer>
-
+      </div>
     </main>
+  );
+}
+
+// Icon Helper Component
+function FaQuestionCircleIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3l58.3 0c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-4.6 2.7-7.4 7.6-7.4 12.9l0 7.3c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-7.3c0-21.2 11.2-40.7 29.5-51.2l32.3-18.6c8.3-4.8 13.4-13.6 13.4-23.2c0-14.7-11.9-26.6-26.6-26.6l-58.3 0c-10 0-19 6.3-22.4 15.7l-4 11.4c-4.4 12.5-18.2 19-30.7 14.6s-19-18.2-14.6-30.7l4-11.4zM224 384a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"></path>
+    </svg>
   );
 }

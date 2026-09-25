@@ -21,7 +21,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Navbar() {
   const [navOpen, setNavOpen] = useState(false);
@@ -74,32 +74,38 @@ export default function Navbar() {
 
       <div className="flex items-center gap-6 ml-6 max-lg:hidden">
         <Link
-          href={"/view-recipe"}
+          href={"/view-recipes"}
           style={{
             backgroundColor: Theme.primaryColor,
             borderColor: Theme.primaryColor,
           }}
           className="px-6 py-1 rounded-full text-white border text-lg"
         >
-          view Recipe
+          View Recipes
         </Link>
         {session ? (
           <DropdownMenu>
-            <DropdownMenuTrigger render={<button/>}>
+            <DropdownMenuTrigger render={<button />}>
               <Avatar>
-     <AvatarImage src={session?.user?.image} />
-        <AvatarFallback>{session.user?.name?.slice(0,2)?.toUpperCase()}</AvatarFallback>
-    </Avatar>
+                <AvatarImage src={session?.user?.image} />
+                <AvatarFallback>
+                  {session?.user?.name?.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                <DropdownMenuLabel><Link href={"/add-recipe"}>Add Recipe</Link></DropdownMenuLabel>
-                <DropdownMenuLabel><Link href={"/profile"}>View Profile</Link></DropdownMenuLabel>
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                    <button onClick={()=> signOut()}>log out</button></DropdownMenuItem>
+                  <Link href={"/add-recipe"}>Add Recipe</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={"/profile"}>View Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <button onClick={()=> signOut()}>Log Out</button>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
@@ -132,11 +138,52 @@ export default function Navbar() {
         </div>
         <div className="flex flex-col items-center gap-6">
           <Link
+<<<<<<< HEAD
             href={"/"}
+=======
+            href={"/add-recipe"}
+            style={{
+                backgroundColor: Theme.primaryColor,
+                borderColor: Theme.primaryColor,
+            }}
+            className="px-6 py-1 rounded-full text-white border text-lg"
+          >
+            View Recipes
+          </Link>
+          {session ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger render={<button />}>
+              <Avatar>
+                <AvatarImage src={session?.user?.image} />
+                <AvatarFallback>
+                  {session?.user?.name?.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <Link href={"/add-recipe"}>Add Recipe</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={"/profile"}>View Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <button onClick={()=> signOut()}>Log Out</button>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Link
+            href={"/auth"}
+>>>>>>> 8f401fbe91697ebd4d7951756ee53ba4a5dfd733
             className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg"
           >
             Account <FaRegCircleUser />
           </Link>
+<<<<<<< HEAD
           <Link
             href={"/view-recipe"}
             style={{
@@ -147,8 +194,15 @@ export default function Navbar() {
           >
             Add Recipe
           </Link>
+=======
+        )}
+>>>>>>> 8f401fbe91697ebd4d7951756ee53ba4a5dfd733
         </div>
       </blockquote>
     </main>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 8f401fbe91697ebd4d7951756ee53ba4a5dfd733
