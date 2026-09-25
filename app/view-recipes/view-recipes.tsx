@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import { 
   FaClock, 
@@ -6,6 +7,10 @@ import {
   FaBasketShopping,
   FaArrowRight
 } from "react-icons/fa6";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/config/firebase";
+import { useEffect } from "react";
+
 
 const recipes = [
   {
@@ -99,6 +104,30 @@ const recipes = [
 ];
 
 export default function RecipesFeed() {
+
+  const handleFetch = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "recipes"));
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(doc.id, " => ", doc.data());
+        const postObj = {
+          id: doc.id,
+          ...doc.data()
+        }
+        console.log(postObj);
+        
+      });
+    } catch (error) {
+      console.error("Error", error)
+      alert("Something went wrong!")
+    }
+  }
+
+  useEffect(()=>{
+    handleFetch()
+  }, [])
+
   return (
     <main className="min-h-screen font-sans p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
