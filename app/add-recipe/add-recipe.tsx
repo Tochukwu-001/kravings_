@@ -4,8 +4,20 @@ import * as Yup from "yup";
 import { FaUtensils, FaCheck } from "react-icons/fa6";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/config/firebase";
+import { useState } from "react";
+import { FaSpinner } from "react-icons/fa";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-export default function RecipeClient({session}) {
+export default function RecipeClient({ session }) {
+  const [processing, setProcessing] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // Controls the dialog visibility
+
   const firstValues = {
     title: "",
     ingredients: "",
@@ -54,15 +66,24 @@ export default function RecipeClient({session}) {
             initialValues={firstValues}
             validationSchema={valObject}
             onSubmit={async (values, { resetForm }) => {
-              console.log(values);
-              const docRef = await addDoc(collection(db, "recipes"), {
-               author: session?.user?.name,
-               img: session?.user?.image,
-               timestamp: new Date().toLocaleDateString(),
-               email: session?.user?.email,
-               ...values
-              });
-              // console.log("Document written with ID: ", docRef.id);
+              setProcessing(true);
+              try {
+                const docRef = await addDoc(collection(db, "recipes"), {
+                  author: session?.user?.name,
+                  img: session?.user?.image,
+                  timestamp: new Date().toLocaleDateString(),
+                  email: session?.user?.email,
+                  ...values,
+                });
+                
+                resetForm();
+                setIsDialogOpen(true); // Open the success dialog here
+                // console.log("Document written with ID: ", docRef.id);
+              } catch (error) {
+                console.error("Error adding document: ", error);
+              } finally {
+                setProcessing(false);
+              }
             }}
           >
             <Form className="space-y-6">
@@ -124,7 +145,7 @@ export default function RecipeClient({session}) {
                 </div>
               </div>
 
-              {/* Ingredients (Changed to textarea for better UX) */}
+              {/* Ingredients */}
               <div>
                 <label htmlFor="ingredients" className={labelClass}>
                   Ingredients
@@ -144,7 +165,7 @@ export default function RecipeClient({session}) {
                 />
               </div>
 
-              {/* Instructions (Changed to textarea for better UX) */}
+              {/* Instructions */}
               <div>
                 <label htmlFor="instructions" className={labelClass}>
                   Instructions
@@ -167,17 +188,39 @@ export default function RecipeClient({session}) {
               {/* Submit Button */}
               <div className="pt-4 border-t border-gray-100">
                 <button
+                  disabled={processing}
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-[#E73F1E] hover:bg-[#c93518] text-white font-bold py-3.5 rounded-xl transition-colors shadow-sm shadow-[#E73F1E]/20 text-base"
+                  className={`w-full flex items-center justify-center gap-2 bg-[#E73F1E] hover:bg-[#c93518] text-white font-bold py-3.5 rounded-xl transition-colors shadow-sm shadow-[#E73F1E]/20 text-base ${
+                    processing ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                 >
-                  <FaCheck />
-                  Submit Recipe
+                  {processing ? (
+                    <span className="flex items-center gap-2">
+                      <FaSpinner className="animate-spin" /> Submitting...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <FaCheck /> Submit Recipe
+                    </span>
+                  )}
                 </button>
               </div>
             </Form>
           </Formik>
         </div>
       </div>
+
+      {/* Programmatically Controlled Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Recipe Submitted!</DialogTitle>
+            <DialogDescription>
+              Your recipe was successfully saved and posted to the community.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }
