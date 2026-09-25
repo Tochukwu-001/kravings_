@@ -9,7 +9,7 @@ export default async function AddRecipe () {
     }
     return (
         <main>
-            <RecipeClient/>
+            <RecipeClient session={session}/>
         </main>
     )
 }

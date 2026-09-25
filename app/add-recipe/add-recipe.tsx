@@ -5,7 +5,7 @@ import { FaUtensils, FaCheck } from "react-icons/fa6";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/config/firebase";
 
-export default function RecipeClient() {
+export default function RecipeClient({session}) {
   const firstValues = {
     title: "",
     ingredients: "",
@@ -56,10 +56,13 @@ export default function RecipeClient() {
             onSubmit={async (values, { resetForm }) => {
               console.log(values);
               const docRef = await addDoc(collection(db, "recipes"), {
-                name: "Tokyo",
-                country: "Japan",
+               author: session?.user?.name,
+               img: session?.user?.image,
+               timestamp: new Date().toLocaleDateString(),
+               email: session?.user?.email,
+               ...values
               });
-              console.log("Document written with ID: ", docRef.id);
+              // console.log("Document written with ID: ", docRef.id);
             }}
           >
             <Form className="space-y-6">
