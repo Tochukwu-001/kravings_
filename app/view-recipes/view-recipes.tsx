@@ -13,7 +13,7 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useEffect, useState } from "react";
 
-export default function RecipesFeed({session}) {
+export default function RecipesFeed({ session }) {
   const [recipes, setRecipes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,13 +37,17 @@ export default function RecipesFeed({session}) {
   };
 
   const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this recipe?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this recipe?",
+    );
     if (!confirmDelete) return;
 
     try {
       await deleteDoc(doc(db, "recipes", id));
       // Update UI immediately by filtering out the deleted recipe
-      setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== id));
+      setRecipes((prevRecipes) =>
+        prevRecipes.filter((recipe) => recipe.id !== id),
+      );
     } catch (error) {
       console.error("Error deleting recipe: ", error);
       alert("Failed to delete recipe. Please try again.");
@@ -58,7 +62,10 @@ export default function RecipesFeed({session}) {
   const parseList = (text: string | string[]) => {
     if (!text) return [];
     if (Array.isArray(text)) return text;
-    return text.split(/,|\n/).map((item) => item.trim()).filter(Boolean);
+    return text
+      .split(/,|\n/)
+      .map((item) => item.trim())
+      .filter(Boolean);
   };
 
   return (
@@ -66,9 +73,12 @@ export default function RecipesFeed({session}) {
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Page Header */}
         <div className="border-b border-gray-200 pb-4">
-          <h1 className="text-3xl font-bold text-gray-900">Community Recipes</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Community Recipes
+          </h1>
           <p className="text-gray-500 text-sm mt-1">
-            Explore freshly posted recipes from home cooks and chefs around the world.
+            Explore freshly posted recipes from home cooks and chefs around the
+            world.
           </p>
         </div>
 
@@ -107,7 +117,9 @@ export default function RecipesFeed({session}) {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            (recipe.author || recipe.chefName || "C").charAt(0).toUpperCase()
+                            (recipe.author || recipe.chefName || "C")
+                              .charAt(0)
+                              .toUpperCase()
                           )}
                         </div>
                         <div>
@@ -121,16 +133,15 @@ export default function RecipesFeed({session}) {
                       </div>
 
                       {/* Delete Action */}
-                      {
-                        
-                      }
-                      <button
-                        onClick={() => handleDelete(recipe.id)}
-                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
-                        title="Delete Recipe"
-                      >
-                        <FaTrash className="text-sm" />
-                      </button>
+                      {session?.user?.email == recipe.email && (
+                        <button
+                          onClick={() => handleDelete(recipe.id)}
+                          className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                          title="Delete Recipe"
+                        >
+                          <FaTrash className="text-sm" />
+                        </button>
+                      )}
                     </div>
 
                     {/* 2. Recipe Title & Badges */}
@@ -145,7 +156,8 @@ export default function RecipesFeed({session}) {
                         </span>
                         <span className="flex items-center gap-1.5 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200">
                           <FaClock className="text-[#E73F1E]" />
-                          {recipe.duration} {typeof recipe.duration === "number" ? "mins" : ""}
+                          {recipe.duration}{" "}
+                          {typeof recipe.duration === "number" ? "mins" : ""}
                         </span>
                       </div>
                     </div>
@@ -153,11 +165,15 @@ export default function RecipesFeed({session}) {
                     {/* 3. Truncated Ingredients */}
                     <div>
                       <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                        <FaBasketShopping className="text-[#E73F1E]" /> Ingredients
+                        <FaBasketShopping className="text-[#E73F1E]" />{" "}
+                        Ingredients
                       </h4>
                       <ul className="space-y-1.5 text-xs text-gray-700 bg-gray-50 p-3 rounded-xl border border-gray-100">
                         {ingList.slice(0, 2).map((ingredient, idx) => (
-                          <li key={idx} className="flex items-center gap-2 truncate">
+                          <li
+                            key={idx}
+                            className="flex items-center gap-2 truncate"
+                          >
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E73F1E] shrink-0" />
                             <span className="truncate">{ingredient}</span>
                           </li>
@@ -168,7 +184,9 @@ export default function RecipesFeed({session}) {
                           </li>
                         )}
                         {ingList.length === 0 && (
-                          <li className="text-gray-400 italic">No ingredients listed.</li>
+                          <li className="text-gray-400 italic">
+                            No ingredients listed.
+                          </li>
                         )}
                       </ul>
                     </div>
@@ -182,7 +200,9 @@ export default function RecipesFeed({session}) {
                         {instList.length > 0 ? (
                           <>
                             <p className="line-clamp-2 leading-relaxed">
-                              <strong className="text-[#E73F1E] mr-1">1.</strong>
+                              <strong className="text-[#E73F1E] mr-1">
+                                1.
+                              </strong>
                               {instList[0]}
                             </p>
                             {instList.length > 1 && (
@@ -192,7 +212,9 @@ export default function RecipesFeed({session}) {
                             )}
                           </>
                         ) : (
-                          <p className="text-gray-400 italic">No instructions provided.</p>
+                          <p className="text-gray-400 italic">
+                            No instructions provided.
+                          </p>
                         )}
                       </div>
                     </div>
@@ -201,7 +223,7 @@ export default function RecipesFeed({session}) {
                   {/* Read More Server Button */}
                   <div className="pt-2 border-t border-gray-100">
                     <Link
-                      href={`/recipes/${recipe.id}`}
+                      href={`/view-recipes/${recipe.id}`}
                       className="w-full flex items-center justify-center gap-2 bg-gray-900 hover:bg-black text-white font-bold py-2.5 rounded-xl text-sm transition-colors shadow-sm"
                     >
                       Read Full Recipe
