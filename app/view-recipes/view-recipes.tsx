@@ -13,7 +13,18 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useEffect, useState } from "react";
 
-export default function RecipesFeed({ session }) {
+// Added TypeScript interface for the component props
+interface RecipesFeedProps {
+  session: {
+    user?: {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  } | null;
+}
+
+export default function RecipesFeed({ session }: RecipesFeedProps) {
   const [recipes, setRecipes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
