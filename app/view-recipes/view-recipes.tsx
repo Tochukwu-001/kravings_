@@ -121,6 +121,9 @@ export default function RecipesFeed({session}) {
                       </div>
 
                       {/* Delete Action */}
+                      {
+                        
+                      }
                       <button
                         onClick={() => handleDelete(recipe.id)}
                         className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
