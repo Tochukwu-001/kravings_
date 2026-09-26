@@ -23,14 +23,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+// Define a specific type for your navigation links
+type NavLink = {
+  label: string;
+  url: string;
+};
+
 export default function Navbar() {
   const [navOpen, setNavOpen] = useState(false);
-  // console.log(navOpen);
 
   const { data: session } = useSession();
-  // console.log(session);
 
-  const navLinks: object[] = [
+  // Apply the specific type instead of object[]
+  const navLinks: NavLink[] = [
     {
       label: "Home",
       url: "/",
@@ -48,6 +53,7 @@ export default function Navbar() {
       url: "/faqs",
     },
   ];
+  
   return (
     <main className="flex items-center justify-between lg:px-20 py-2 shadow-md relative z-50">
       <Link href={"/"} className="flex items-center z-50">
@@ -87,9 +93,10 @@ export default function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger render={<button />}>
               <Avatar>
-                <AvatarImage src={session?.user?.image} />
+                {/* Fixed the src type error using nullish coalescing */}
+                <AvatarImage src={session?.user?.image ?? undefined} />
                 <AvatarFallback>
-                  {session?.user?.name?.slice(0, 2).toUpperCase()}
+                  {session?.user?.name?.slice(0, 2).toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
@@ -103,7 +110,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <button onClick={()=> signOut()}>Log Out</button>
+                  <button onClick={() => signOut()}>Log Out</button>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>
@@ -140,46 +147,47 @@ export default function Navbar() {
           <Link
             href={"/add-recipe"}
             style={{
-                backgroundColor: Theme.primaryColor,
-                borderColor: Theme.primaryColor,
+              backgroundColor: Theme.primaryColor,
+              borderColor: Theme.primaryColor,
             }}
             className="px-6 py-1 rounded-full text-white border text-lg"
           >
             View Recipes
           </Link>
           {session ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger render={<button />}>
-              <Avatar>
-                <AvatarImage src={session?.user?.image} />
-                <AvatarFallback>
-                  {session?.user?.name?.slice(0, 2).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Link href={"/add-recipe"}>Add Recipe</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href={"/profile"}>View Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <button onClick={()=> signOut()}>Log Out</button>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Link
-            href={"/auth"}
-            className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg"
-          >
-            Account <FaRegCircleUser />
-          </Link>
-        )}
+            <DropdownMenu>
+              <DropdownMenuTrigger render={<button />}>
+                <Avatar>
+                  {/* Fixed the src type error using nullish coalescing */}
+                  <AvatarImage src={session?.user?.image ?? undefined} />
+                  <AvatarFallback>
+                    {session?.user?.name?.slice(0, 2).toUpperCase() || "U"}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <Link href={"/add-recipe"}>Add Recipe</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href={"/profile"}>View Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <button onClick={() => signOut()}>Log Out</button>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link
+              href={"/auth"}
+              className="flex items-center border gap-1 px-6 py-1 rounded-full border-gray-700 text-lg"
+            >
+              Account <FaRegCircleUser />
+            </Link>
+          )}
         </div>
       </blockquote>
     </main>

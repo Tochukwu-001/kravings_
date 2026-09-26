@@ -14,7 +14,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export default function RecipeClient({ session }) {
+// Define the expected structure for the session prop
+interface RecipeClientProps {
+  session: {
+    user?: {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  } | null;
+}
+
+export default function RecipeClient({ session }: RecipeClientProps) {
   const [processing, setProcessing] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Controls the dialog visibility
 
