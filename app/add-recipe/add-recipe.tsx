@@ -14,7 +14,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-// Define the expected structure for the session prop
 interface RecipeClientProps {
   session: {
     user?: {
