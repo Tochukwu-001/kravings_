@@ -1,9 +1,11 @@
+import { auth } from "@/auth";
 import ViewClient from "./view-recipes";
 
 export default async function ViewRecipes () {
+    const session = await auth()
     return (
         <main>
-            <ViewClient/>
+            <ViewClient session={session}/>
         </main>
     )
 }
